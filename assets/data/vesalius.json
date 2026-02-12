@@ -1,0 +1,4563 @@
+{
+  "title": "Vesalius 3D Atlas — MEGA (Year 11–12)",
+  "source": {
+    "public_domain": true,
+    "note": "Images provided by you. Add more public-domain plates by dropping images into assets/plates and adding entries to assets/data/vesalius.json."
+  },
+  "layers": [
+    {
+      "id": "skeleton_full",
+      "name": "Skeleton — full figure",
+      "year": 1543,
+      "src": "assets/plates/plate1a_skeleton_full.png",
+      "thumb": "assets/thumbs/plate1a_skeleton_full.jpg",
+      "depth": 0.0,
+      "regions": [
+        {
+          "id": "cranium",
+          "name": "Cranium",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.125,
+              0.05
+            ],
+            [
+              0.125,
+              0.125
+            ],
+            [
+              0.05,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Cranium supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mandible",
+          "name": "Mandible",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.21,
+              0.05
+            ],
+            [
+              0.21,
+              0.125
+            ],
+            [
+              0.135,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Mandible supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "clavicle",
+          "name": "Clavicle",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.22,
+              0.05
+            ],
+            [
+              0.295,
+              0.05
+            ],
+            [
+              0.295,
+              0.125
+            ],
+            [
+              0.22,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Clavicle supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "scapula",
+          "name": "Scapula",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.305,
+              0.05
+            ],
+            [
+              0.38,
+              0.05
+            ],
+            [
+              0.38,
+              0.125
+            ],
+            [
+              0.305,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Scapula supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "sternum",
+          "name": "Sternum",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.39,
+              0.05
+            ],
+            [
+              0.465,
+              0.05
+            ],
+            [
+              0.465,
+              0.125
+            ],
+            [
+              0.39,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Sternum supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "ribs",
+          "name": "Ribs",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.475,
+              0.05
+            ],
+            [
+              0.55,
+              0.05
+            ],
+            [
+              0.55,
+              0.125
+            ],
+            [
+              0.475,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Ribs supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "cervical",
+          "name": "Cervical vertebrae",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.56,
+              0.05
+            ],
+            [
+              0.635,
+              0.05
+            ],
+            [
+              0.635,
+              0.125
+            ],
+            [
+              0.56,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Cervical vertebrae supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "thoracic",
+          "name": "Thoracic vertebrae",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.645,
+              0.05
+            ],
+            [
+              0.72,
+              0.05
+            ],
+            [
+              0.72,
+              0.125
+            ],
+            [
+              0.645,
+              0.125
+            ]
+          ],
+          "info": {
+            "overview": "Thoracic vertebrae supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "lumbar",
+          "name": "Lumbar vertebrae",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.135
+            ],
+            [
+              0.125,
+              0.135
+            ],
+            [
+              0.125,
+              0.21
+            ],
+            [
+              0.05,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Lumbar vertebrae supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "sacrum",
+          "name": "Sacrum",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.21,
+              0.135
+            ],
+            [
+              0.21,
+              0.21
+            ],
+            [
+              0.135,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Sacrum supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pelvis",
+          "name": "Pelvis",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.22,
+              0.135
+            ],
+            [
+              0.295,
+              0.135
+            ],
+            [
+              0.295,
+              0.21
+            ],
+            [
+              0.22,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Pelvis supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "humerus",
+          "name": "Humerus",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.305,
+              0.135
+            ],
+            [
+              0.38,
+              0.135
+            ],
+            [
+              0.38,
+              0.21
+            ],
+            [
+              0.305,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Humerus supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "radius",
+          "name": "Radius",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.39,
+              0.135
+            ],
+            [
+              0.465,
+              0.135
+            ],
+            [
+              0.465,
+              0.21
+            ],
+            [
+              0.39,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Radius supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "ulna",
+          "name": "Ulna",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.475,
+              0.135
+            ],
+            [
+              0.55,
+              0.135
+            ],
+            [
+              0.55,
+              0.21
+            ],
+            [
+              0.475,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Ulna supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "carpals",
+          "name": "Carpals",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.56,
+              0.135
+            ],
+            [
+              0.635,
+              0.135
+            ],
+            [
+              0.635,
+              0.21
+            ],
+            [
+              0.56,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Carpals supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "metacarpals",
+          "name": "Metacarpals",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.645,
+              0.135
+            ],
+            [
+              0.72,
+              0.135
+            ],
+            [
+              0.72,
+              0.21
+            ],
+            [
+              0.645,
+              0.21
+            ]
+          ],
+          "info": {
+            "overview": "Metacarpals supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "phalanges_hand",
+          "name": "Hand phalanges",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.22
+            ],
+            [
+              0.125,
+              0.22
+            ],
+            [
+              0.125,
+              0.295
+            ],
+            [
+              0.05,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Hand phalanges supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "femur",
+          "name": "Femur",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.135,
+              0.22
+            ],
+            [
+              0.21,
+              0.22
+            ],
+            [
+              0.21,
+              0.295
+            ],
+            [
+              0.135,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Femur supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "patella",
+          "name": "Patella",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.22,
+              0.22
+            ],
+            [
+              0.295,
+              0.22
+            ],
+            [
+              0.295,
+              0.295
+            ],
+            [
+              0.22,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Patella supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "tibia",
+          "name": "Tibia",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.305,
+              0.22
+            ],
+            [
+              0.38,
+              0.22
+            ],
+            [
+              0.38,
+              0.295
+            ],
+            [
+              0.305,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Tibia supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "fibula",
+          "name": "Fibula",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.39,
+              0.22
+            ],
+            [
+              0.465,
+              0.22
+            ],
+            [
+              0.465,
+              0.295
+            ],
+            [
+              0.39,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Fibula supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "tarsals",
+          "name": "Tarsals",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.475,
+              0.22
+            ],
+            [
+              0.55,
+              0.22
+            ],
+            [
+              0.55,
+              0.295
+            ],
+            [
+              0.475,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Tarsals supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "metatarsals",
+          "name": "Metatarsals",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.56,
+              0.22
+            ],
+            [
+              0.635,
+              0.22
+            ],
+            [
+              0.635,
+              0.295
+            ],
+            [
+              0.56,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Metatarsals supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "phalanges_foot",
+          "name": "Foot phalanges",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.645,
+              0.22
+            ],
+            [
+              0.72,
+              0.22
+            ],
+            [
+              0.72,
+              0.295
+            ],
+            [
+              0.645,
+              0.295
+            ]
+          ],
+          "info": {
+            "overview": "Foot phalanges supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "vertebral_column",
+          "name": "Vertebral column",
+          "kind": "region",
+          "polygon": [
+            [
+              0.05,
+              0.305
+            ],
+            [
+              0.125,
+              0.305
+            ],
+            [
+              0.125,
+              0.38
+            ],
+            [
+              0.05,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Vertebral column is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "rib_cage",
+          "name": "Rib cage",
+          "kind": "region",
+          "polygon": [
+            [
+              0.135,
+              0.305
+            ],
+            [
+              0.21,
+              0.305
+            ],
+            [
+              0.21,
+              0.38
+            ],
+            [
+              0.135,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Rib cage is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "shoulder_joint",
+          "name": "Shoulder joint",
+          "kind": "joint",
+          "polygon": [
+            [
+              0.22,
+              0.305
+            ],
+            [
+              0.295,
+              0.305
+            ],
+            [
+              0.295,
+              0.38
+            ],
+            [
+              0.22,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Shoulder joint is where bones meet, allowing movement while maintaining stability.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "elbow_joint",
+          "name": "Elbow joint",
+          "kind": "joint",
+          "polygon": [
+            [
+              0.305,
+              0.305
+            ],
+            [
+              0.38,
+              0.305
+            ],
+            [
+              0.38,
+              0.38
+            ],
+            [
+              0.305,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Elbow joint is where bones meet, allowing movement while maintaining stability.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "wrist_joint",
+          "name": "Wrist joint",
+          "kind": "joint",
+          "polygon": [
+            [
+              0.39,
+              0.305
+            ],
+            [
+              0.465,
+              0.305
+            ],
+            [
+              0.465,
+              0.38
+            ],
+            [
+              0.39,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Wrist joint is where bones meet, allowing movement while maintaining stability.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "hip_joint",
+          "name": "Hip joint",
+          "kind": "joint",
+          "polygon": [
+            [
+              0.475,
+              0.305
+            ],
+            [
+              0.55,
+              0.305
+            ],
+            [
+              0.55,
+              0.38
+            ],
+            [
+              0.475,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Hip joint is where bones meet, allowing movement while maintaining stability.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "knee_joint",
+          "name": "Knee joint",
+          "kind": "joint",
+          "polygon": [
+            [
+              0.56,
+              0.305
+            ],
+            [
+              0.635,
+              0.305
+            ],
+            [
+              0.635,
+              0.38
+            ],
+            [
+              0.56,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Knee joint is where bones meet, allowing movement while maintaining stability.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "ankle_joint",
+          "name": "Ankle joint",
+          "kind": "joint",
+          "polygon": [
+            [
+              0.645,
+              0.305
+            ],
+            [
+              0.72,
+              0.305
+            ],
+            [
+              0.72,
+              0.38
+            ],
+            [
+              0.645,
+              0.38
+            ]
+          ],
+          "info": {
+            "overview": "Ankle joint is where bones meet, allowing movement while maintaining stability.",
+            "from_book": [
+              {
+                "ref": "Public-domain Vesalius-style skeletal plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "skull_front",
+      "name": "Skull — frontal view",
+      "year": 1543,
+      "src": "assets/plates/plate1b_skull_front.png",
+      "thumb": "assets/thumbs/plate1b_skull_front.jpg",
+      "depth": 0.1,
+      "regions": [
+        {
+          "id": "frontal",
+          "name": "Frontal bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Frontal bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "parietal",
+          "name": "Parietal bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Parietal bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "temporal",
+          "name": "Temporal bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Temporal bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "occipital",
+          "name": "Occipital bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Occipital bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "maxilla",
+          "name": "Maxilla",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Maxilla supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mandible",
+          "name": "Mandible",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Mandible supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "zygomatic",
+          "name": "Zygomatic bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Zygomatic bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "nasal",
+          "name": "Nasal bones",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Nasal bones supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "orbit",
+          "name": "Orbit",
+          "kind": "region",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Orbit is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "teeth",
+          "name": "Teeth",
+          "kind": "region",
+          "polygon": [
+            [
+              0.43,
+              0.145
+            ],
+            [
+              0.515,
+              0.145
+            ],
+            [
+              0.515,
+              0.23
+            ],
+            [
+              0.43,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Teeth is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "skull_side",
+      "name": "Skull — lateral view",
+      "year": 1543,
+      "src": "assets/plates/plate1c_skull_side.png",
+      "thumb": "assets/thumbs/plate1c_skull_side.jpg",
+      "depth": 0.2,
+      "regions": [
+        {
+          "id": "frontal",
+          "name": "Frontal bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Frontal bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "parietal",
+          "name": "Parietal bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Parietal bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "temporal",
+          "name": "Temporal bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Temporal bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "occipital",
+          "name": "Occipital bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Occipital bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "maxilla",
+          "name": "Maxilla",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Maxilla supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mandible",
+          "name": "Mandible",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Mandible supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "zygomatic",
+          "name": "Zygomatic bone",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Zygomatic bone supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "nasal",
+          "name": "Nasal bones",
+          "kind": "bone",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Nasal bones supports the body, protects organs, and provides attachment points for muscles.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "orbit",
+          "name": "Orbit",
+          "kind": "region",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Orbit is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "teeth",
+          "name": "Teeth",
+          "kind": "region",
+          "polygon": [
+            [
+              0.43,
+              0.145
+            ],
+            [
+              0.515,
+              0.145
+            ],
+            [
+              0.515,
+              0.23
+            ],
+            [
+              0.43,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Teeth is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain skull plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "trunk_full",
+      "name": "Trunk — full",
+      "year": 1543,
+      "src": "assets/plates/plate2_trunk_full.png",
+      "thumb": "assets/thumbs/plate2_trunk_full.jpg",
+      "depth": 0.3,
+      "regions": [
+        {
+          "id": "lungs",
+          "name": "Lungs",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Lungs is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "heart",
+          "name": "Heart",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Heart is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "trachea",
+          "name": "Trachea",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Trachea is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "esophagus",
+          "name": "Oesophagus",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Oesophagus is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "aorta",
+          "name": "Aorta",
+          "kind": "vessel",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Aorta is a major blood vessel involved in circulation.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "vena_cava",
+          "name": "Vena cava",
+          "kind": "vessel",
+          "polygon": [
+            [
+              0.525,
+              0.05
+            ],
+            [
+              0.61,
+              0.05
+            ],
+            [
+              0.61,
+              0.135
+            ],
+            [
+              0.525,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Vena cava is a major blood vessel involved in circulation.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "diaphragm",
+          "name": "Diaphragm",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Diaphragm contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pleura",
+          "name": "Pleura",
+          "kind": "region",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Pleura is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mediastinum",
+          "name": "Mediastinum",
+          "kind": "region",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Mediastinum is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "liver",
+          "name": "Liver",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Liver is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "stomach",
+          "name": "Stomach",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.43,
+              0.145
+            ],
+            [
+              0.515,
+              0.145
+            ],
+            [
+              0.515,
+              0.23
+            ],
+            [
+              0.43,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Stomach is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "small_intestine",
+          "name": "Small intestine",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.525,
+              0.145
+            ],
+            [
+              0.61,
+              0.145
+            ],
+            [
+              0.61,
+              0.23
+            ],
+            [
+              0.525,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Small intestine is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "large_intestine",
+          "name": "Large intestine (colon)",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.05,
+              0.24
+            ],
+            [
+              0.135,
+              0.24
+            ],
+            [
+              0.135,
+              0.325
+            ],
+            [
+              0.05,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Large intestine (colon) is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "spleen",
+          "name": "Spleen",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.145,
+              0.24
+            ],
+            [
+              0.23,
+              0.24
+            ],
+            [
+              0.23,
+              0.325
+            ],
+            [
+              0.145,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Spleen is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "kidneys",
+          "name": "Kidneys",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.24,
+              0.24
+            ],
+            [
+              0.325,
+              0.24
+            ],
+            [
+              0.325,
+              0.325
+            ],
+            [
+              0.24,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Kidneys is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pancreas",
+          "name": "Pancreas",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.335,
+              0.24
+            ],
+            [
+              0.42,
+              0.24
+            ],
+            [
+              0.42,
+              0.325
+            ],
+            [
+              0.335,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Pancreas is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mesentery",
+          "name": "Mesentery",
+          "kind": "region",
+          "polygon": [
+            [
+              0.43,
+              0.24
+            ],
+            [
+              0.515,
+              0.24
+            ],
+            [
+              0.515,
+              0.325
+            ],
+            [
+              0.43,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Mesentery is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "rectum",
+          "name": "Rectum",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.525,
+              0.24
+            ],
+            [
+              0.61,
+              0.24
+            ],
+            [
+              0.61,
+              0.325
+            ],
+            [
+              0.525,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Rectum is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain trunk plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "thorax",
+      "name": "Thorax (heart + lungs)",
+      "year": 1543,
+      "src": "assets/plates/plate2a_thorax.png",
+      "thumb": "assets/thumbs/plate2a_thorax.jpg",
+      "depth": 0.4,
+      "regions": [
+        {
+          "id": "lungs",
+          "name": "Lungs",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Lungs is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "heart",
+          "name": "Heart",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Heart is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "trachea",
+          "name": "Trachea",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Trachea is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "esophagus",
+          "name": "Oesophagus",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Oesophagus is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "aorta",
+          "name": "Aorta",
+          "kind": "vessel",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Aorta is a major blood vessel involved in circulation.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "vena_cava",
+          "name": "Vena cava",
+          "kind": "vessel",
+          "polygon": [
+            [
+              0.525,
+              0.05
+            ],
+            [
+              0.61,
+              0.05
+            ],
+            [
+              0.61,
+              0.135
+            ],
+            [
+              0.525,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Vena cava is a major blood vessel involved in circulation.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "diaphragm",
+          "name": "Diaphragm",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Diaphragm contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pleura",
+          "name": "Pleura",
+          "kind": "region",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Pleura is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mediastinum",
+          "name": "Mediastinum",
+          "kind": "region",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Mediastinum is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain thorax plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "abdomen",
+      "name": "Abdomen (digestive)",
+      "year": 1543,
+      "src": "assets/plates/plate2b_abdomen.png",
+      "thumb": "assets/thumbs/plate2b_abdomen.jpg",
+      "depth": 0.5,
+      "regions": [
+        {
+          "id": "liver",
+          "name": "Liver",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Liver is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "stomach",
+          "name": "Stomach",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Stomach is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "small_intestine",
+          "name": "Small intestine",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Small intestine is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "large_intestine",
+          "name": "Large intestine (colon)",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Large intestine (colon) is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "spleen",
+          "name": "Spleen",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Spleen is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "kidneys",
+          "name": "Kidneys",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Kidneys is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pancreas",
+          "name": "Pancreas",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Pancreas is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "mesentery",
+          "name": "Mesentery",
+          "kind": "region",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Mesentery is an anatomical region used to group and describe structures.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "rectum",
+          "name": "Rectum",
+          "kind": "organ",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Rectum is an internal organ with a specific role in the body’s systems.",
+            "from_book": [
+              {
+                "ref": "Public-domain abdomen plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "muscles_full",
+      "name": "Muscles — full chart",
+      "year": 1543,
+      "src": "assets/plates/plate3_muscles_full.png",
+      "thumb": "assets/thumbs/plate3_muscles_full.jpg",
+      "depth": 0.6,
+      "regions": [
+        {
+          "id": "deltoid",
+          "name": "Deltoid",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Deltoid contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pectoralis_major",
+          "name": "Pectoralis major",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Pectoralis major contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "biceps",
+          "name": "Biceps brachii",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Biceps brachii contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "rectus_abdominis",
+          "name": "Rectus abdominis",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Rectus abdominis contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "external_oblique",
+          "name": "External oblique",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "External oblique contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "quadriceps",
+          "name": "Quadriceps",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.525,
+              0.05
+            ],
+            [
+              0.61,
+              0.05
+            ],
+            [
+              0.61,
+              0.135
+            ],
+            [
+              0.525,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Quadriceps contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "tibialis_anterior",
+          "name": "Tibialis anterior",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Tibialis anterior contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "sternocleidomastoid",
+          "name": "Sternocleidomastoid",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Sternocleidomastoid contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "masseter",
+          "name": "Masseter",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Masseter contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "trapezius",
+          "name": "Trapezius",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Trapezius contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "latissimus_dorsi",
+          "name": "Latissimus dorsi",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.43,
+              0.145
+            ],
+            [
+              0.515,
+              0.145
+            ],
+            [
+              0.515,
+              0.23
+            ],
+            [
+              0.43,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Latissimus dorsi contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "triceps",
+          "name": "Triceps brachii",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.525,
+              0.145
+            ],
+            [
+              0.61,
+              0.145
+            ],
+            [
+              0.61,
+              0.23
+            ],
+            [
+              0.525,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Triceps brachii contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "erector_spinae",
+          "name": "Erector spinae",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.24
+            ],
+            [
+              0.135,
+              0.24
+            ],
+            [
+              0.135,
+              0.325
+            ],
+            [
+              0.05,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Erector spinae contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "gluteus_maximus",
+          "name": "Gluteus maximus",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.24
+            ],
+            [
+              0.23,
+              0.24
+            ],
+            [
+              0.23,
+              0.325
+            ],
+            [
+              0.145,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Gluteus maximus contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "hamstrings",
+          "name": "Hamstrings",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.24
+            ],
+            [
+              0.325,
+              0.24
+            ],
+            [
+              0.325,
+              0.325
+            ],
+            [
+              0.24,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Hamstrings contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "gastrocnemius",
+          "name": "Gastrocnemius",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.335,
+              0.24
+            ],
+            [
+              0.42,
+              0.24
+            ],
+            [
+              0.42,
+              0.325
+            ],
+            [
+              0.335,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Gastrocnemius contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "soleus",
+          "name": "Soleus",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.43,
+              0.24
+            ],
+            [
+              0.515,
+              0.24
+            ],
+            [
+              0.515,
+              0.325
+            ],
+            [
+              0.43,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Soleus contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "achilles",
+          "name": "Achilles tendon",
+          "kind": "tendon",
+          "polygon": [
+            [
+              0.525,
+              0.24
+            ],
+            [
+              0.61,
+              0.24
+            ],
+            [
+              0.61,
+              0.325
+            ],
+            [
+              0.525,
+              0.325
+            ]
+          ],
+          "info": {
+            "overview": "Achilles tendon connects muscle to bone and transmits force for movement.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "muscles_front",
+      "name": "Muscles — front",
+      "year": 1543,
+      "src": "assets/plates/plate3a_muscles_front.png",
+      "thumb": "assets/thumbs/plate3a_muscles_front.jpg",
+      "depth": 0.7,
+      "regions": [
+        {
+          "id": "deltoid",
+          "name": "Deltoid",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Deltoid contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "pectoralis_major",
+          "name": "Pectoralis major",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Pectoralis major contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "biceps",
+          "name": "Biceps brachii",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Biceps brachii contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "rectus_abdominis",
+          "name": "Rectus abdominis",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Rectus abdominis contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "external_oblique",
+          "name": "External oblique",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "External oblique contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "quadriceps",
+          "name": "Quadriceps",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Quadriceps contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "tibialis_anterior",
+          "name": "Tibialis anterior",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Tibialis anterior contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "sternocleidomastoid",
+          "name": "Sternocleidomastoid",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Sternocleidomastoid contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "masseter",
+          "name": "Masseter",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Masseter contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "muscles_back",
+      "name": "Muscles — back",
+      "year": 1543,
+      "src": "assets/plates/plate3b_muscles_back.png",
+      "thumb": "assets/thumbs/plate3b_muscles_back.jpg",
+      "depth": 0.8,
+      "regions": [
+        {
+          "id": "trapezius",
+          "name": "Trapezius",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.05
+            ],
+            [
+              0.135,
+              0.05
+            ],
+            [
+              0.135,
+              0.135
+            ],
+            [
+              0.05,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Trapezius contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "latissimus_dorsi",
+          "name": "Latissimus dorsi",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.05
+            ],
+            [
+              0.23,
+              0.05
+            ],
+            [
+              0.23,
+              0.135
+            ],
+            [
+              0.145,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Latissimus dorsi contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "triceps",
+          "name": "Triceps brachii",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.05
+            ],
+            [
+              0.325,
+              0.05
+            ],
+            [
+              0.325,
+              0.135
+            ],
+            [
+              0.24,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Triceps brachii contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "erector_spinae",
+          "name": "Erector spinae",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.335,
+              0.05
+            ],
+            [
+              0.42,
+              0.05
+            ],
+            [
+              0.42,
+              0.135
+            ],
+            [
+              0.335,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Erector spinae contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "gluteus_maximus",
+          "name": "Gluteus maximus",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.43,
+              0.05
+            ],
+            [
+              0.515,
+              0.05
+            ],
+            [
+              0.515,
+              0.135
+            ],
+            [
+              0.43,
+              0.135
+            ]
+          ],
+          "info": {
+            "overview": "Gluteus maximus contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "hamstrings",
+          "name": "Hamstrings",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.05,
+              0.145
+            ],
+            [
+              0.135,
+              0.145
+            ],
+            [
+              0.135,
+              0.23
+            ],
+            [
+              0.05,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Hamstrings contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "gastrocnemius",
+          "name": "Gastrocnemius",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.145,
+              0.145
+            ],
+            [
+              0.23,
+              0.145
+            ],
+            [
+              0.23,
+              0.23
+            ],
+            [
+              0.145,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Gastrocnemius contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "soleus",
+          "name": "Soleus",
+          "kind": "muscle",
+          "polygon": [
+            [
+              0.24,
+              0.145
+            ],
+            [
+              0.325,
+              0.145
+            ],
+            [
+              0.325,
+              0.23
+            ],
+            [
+              0.24,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Soleus contracts to create movement and help maintain posture.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        },
+        {
+          "id": "achilles",
+          "name": "Achilles tendon",
+          "kind": "tendon",
+          "polygon": [
+            [
+              0.335,
+              0.145
+            ],
+            [
+              0.42,
+              0.145
+            ],
+            [
+              0.42,
+              0.23
+            ],
+            [
+              0.335,
+              0.23
+            ]
+          ],
+          "info": {
+            "overview": "Achilles tendon connects muscle to bone and transmits force for movement.",
+            "from_book": [
+              {
+                "ref": "Public-domain muscles plate",
+                "quote": ""
+              }
+            ],
+            "notes": [
+              "Use Trace Mode to redraw this region so it matches the exact outline on the plate.",
+              "Add 1–2 key points: location, function, and one interesting fact."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
