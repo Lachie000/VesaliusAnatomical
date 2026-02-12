@@ -333,3 +333,32 @@ h3{ margin:0 0 8px; font-size:13px; letter-spacing:.2px; }
 }
 /* FORCE disable dots completely */
 .dots, .dot { display: none !important; }
+
+/* ===== A+ museum polish ===== */
+
+.imgCaption{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.plate{
+  transition:.15s;
+}
+.plate:hover{
+  transform:translateY(-3px);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+
+.note{
+  transition:.15s;
+}
+.note:hover{
+  transform:translateY(-2px);
+  border-color:rgba(97,218,251,.35);
+}
+
+.note.is-active{
+  border-color:rgba(97,218,251,.5);
+  box-shadow:0 0 0 3px rgba(97,218,251,.15);
+}
