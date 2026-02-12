@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clickable 3D Anatomy (GitHub Pages)</title>
+  <style>
+    :root{
+      --bg:#070b10; --panel:rgba(14,22,34,.92); --text:#e7eef9; --muted:#9fb2cf;
+      --border:rgba(255,255,255,.10);
+      --acc: rgba(97,218,251,.95);
+      --radius:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; font-family:var(--sans); color:var(--text);
+      background:radial-gradient(1200px 900px at 20% 0%, rgba(97,218,251,.08), transparent 45%),
+              radial-gradient(1200px 900px at 90% 10%, rgba(167,139,250,.08), transparent 45%),
+              var(--bg);
+    }
+    #app{ display:grid; grid-template-columns: 360px 1fr 420px; height:100vh; }
+    aside{ padding:14px; overflow:auto; background: linear-gradient(180deg, var(--panel), rgba(7,11,16,.78)); backdrop-filter: blur(10px); }
+    .left{ border-right:1px solid var(--border); }
+    .right{ border-left:1px solid var(--border); }
+    .card{
+      border:1px solid var(--border);
+      background: rgba(12,18,32,.62);
+      border-radius: var(--radius);
+      padding:12px;
+      margin-bottom:12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+    h1{ font-size:14px; margin:0 0 8px; letter-spacing:.2px; }
+    .muted{ color:var(--muted); font-size:12px; line-height:1.45; }
+    .pill{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.25);
+      color:var(--muted); font-size:12px; font-family:var(--mono);
+      margin-right:6px; margin-bottom:6px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(8,12,20,.55);
+      color:var(--text); cursor:pointer; user-select:none;
+    }
+    .btn:hover{ border-color: rgba(255,255,255,.16); }
+    .btn.primary{
+      border-color: rgba(97,218,251,.35);
+      background: linear-gradient(135deg, rgba(97,218,251,.16), rgba(167,139,250,.12));
+    }
+    #viewport{ position:relative; overflow:hidden; }
+    canvas{ display:block; width:100%; height:100%; }
+
+    /* Tooltip */
+    #tip{
+      position:absolute; z-index:10; pointer-events:none;
+      transform: translate(12px, 12px);
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,12,20,.86);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      display:none;
+      max-width: 320px;
+    }
+    #tip .t1{ font-size:12px; color: var(--text); opacity:.95; }
+    #tip .t2{ font-size:11px; color: var(--muted); margin-top:2px; font-family: var(--mono); }
+
+    .listItem{
+      padding:10px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background: rgba(0,0,0,.18);
+      cursor:pointer;
+      margin-bottom:8px;
+    }
+    .listItem:hover{ border-color: rgba(97,218,251,.22); background: rgba(97,218,251,.06); }
+    .kpi{ font-family:var(--mono); font-size:12px; color:var(--muted); }
+
+    @media (max-width: 1100px){
+      #app{ grid-template-columns: 1fr; grid-template-rows:auto 58vh auto; }
+      .left{ border-right:none; border-bottom:1px solid var(--border); }
+      .right{ border-left:none; border-top:1px solid var(--border); }
+    }
+  </style>
+
+  <!-- IMPORTANT: this fixes “Failed to resolve module specifier 'three'” on GitHub Pages -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <aside class="left">
+      <div class="card">
+        <h1>Clickable 3D Anatomy</h1>
+        <p class="muted">
+          Real 3D parts (STL) you can hover + click. Designed to run on <span class="pill">GitHub Pages</span> without npm.
+        </p>
+        <div class="muted">
+          <span class="pill">Drag</span> rotate
+          <span class="pill">Wheel</span> zoom
+          <span class="pill">Right-drag</span> pan
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="kpi">View</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+          <button class="btn primary" id="fitBtn">Fit view</button>
+          <button class="btn" id="resetBtn">Reset</button>
+          <button class="btn" id="toggleGlowBtn">Hover glow: On</button>
+        </div>
+        <p class="muted" style="margin-top:10px;">
+          Add more bones by adding entries to <span class="pill">PARTS</span> in the code.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Loaded parts</div>
+        <div id="parts"></div>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Attribution</div>
+        <p class="muted" style="margin:6px 0 0;">
+          3D models: BodyParts3D via Wikimedia Commons (CC BY-SA 2.1 JP).
+        </p>
+      </div>
+    </aside>
+
+    <main id="viewport">
+      <div id="tip"><div class="t1" id="tipName">—</div><div class="t2" id="tipMeta">—</div></div>
+    </main>
+
+    <aside class="right">
+      <div class="card">
+        <div class="kpi">Selection</div>
+        <div id="selName" style="font-size:16px; margin-top:6px;">Nothing selected</div>
+        <div id="selMeta" class="muted">Hover a part to preview, click to pin.</div>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Brief info</div>
+        <div id="info" class="muted" style="margin-top:8px;">Click a part to see a short paragraph.</div>
+      </div>
+    </aside>
+  </div>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { STLLoader } from "three/addons/loaders/STLLoader.js";
+
+    const viewport = document.getElementById("viewport");
+    const tip = document.getElementById("tip");
+    const tipName = document.getElementById("tipName");
+    const tipMeta = document.getElementById("tipMeta");
+
+    const fitBtn = document.getElementById("fitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const toggleGlowBtn = document.getElementById("toggleGlowBtn");
+
+    const partsEl = document.getElementById("parts");
+    const selNameEl = document.getElementById("selName");
+    const selMetaEl = document.getElementById("selMeta");
+    const infoEl = document.getElementById("info");
+
+    // Parts (BodyParts3D on Wikimedia Commons)
+    // TIP: Using Special:FilePath means you don't need the upload hash in the URL.
+    const PARTS = [
+      // ====== ORIGINAL SET ======
+      {
+        id: "femur",
+        name: "Femur",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Femur.stl",
+        brief:
+          "The femur is the longest and strongest bone in the body. It forms the hip joint at the top and the knee joint at the bottom, transferring body weight during standing, walking, and running."
+      },
+      {
+        id: "mandible",
+        name: "Mandible",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_FJ6399_Mandible.stl",
+        brief:
+          "The mandible is the lower jaw bone. It holds the lower teeth, moves during chewing and speaking, and forms a joint with the skull at the temporomandibular joint (TMJ)."
+      },
+      {
+        id: "clavicle",
+        name: "Clavicle",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Clavicle.stl",
+        brief:
+          "The clavicle (collarbone) connects the sternum to the shoulder. It helps brace the shoulder, keeps the arm positioned away from the body, and transmits forces from the arm to the trunk."
+      },
+      {
+        id: "sacrum",
+        name: "Sacrum",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_FJ6484_Sacrum.stl",
+        brief:
+          "The sacrum is a fused set of vertebrae at the base of the spine. It forms the back of the pelvis, supports upper-body weight, and helps transfer forces to the hips and legs."
+      },
+      {
+        id: "frontal",
+        name: "Frontal bone",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_FJ6310_Frontal_bone.stl",
+        brief:
+          "The frontal bone forms the forehead and the upper parts of the eye sockets. It helps protect the brain and provides attachment surfaces for facial muscles."
+      },
+
+      // ====== ADDED BONES (verified filenames on Commons) ======
+      {
+        id: "tibia",
+        name: "Tibia",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Tibia.stl",
+        brief:
+          "The tibia (shinbone) is the larger weight-bearing bone of the lower leg. It forms the knee joint with the femur and the ankle joint with the talus."
+      },
+      {
+        id: "fibula",
+        name: "Fibula",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Fibula.stl",
+        brief:
+          "The fibula is the thinner bone of the lower leg. It stabilizes the ankle and provides attachment sites for leg muscles."
+      },
+      {
+        id: "humerus",
+        name: "Humerus",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Humerus.stl",
+        brief:
+          "The humerus is the long bone of the upper arm. It forms the shoulder joint with the scapula and the elbow joint with the radius and ulna."
+      },
+      {
+        id: "radius",
+        name: "Radius",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Radius.stl",
+        brief:
+          "The radius is the lateral forearm bone (thumb side). It rotates around the ulna and helps form the wrist joint."
+      },
+      {
+        id: "ulna",
+        name: "Ulna",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Ulna.stl",
+        brief:
+          "The ulna is the medial forearm bone (pinky side). It forms the hinge of the elbow and provides a stable axis for forearm rotation."
+      },
+
+      // ====== EXTRA COMMON PARTS (may vary by filename; swap if needed) ======
+      {
+        id: "skull",
+        name: "Skull (Cranium)",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Skull.stl",
+        brief:
+          "The skull protects the brain and forms the framework of the face. It also provides attachment points for head and neck muscles."
+      },
+      {
+        id: "sternum",
+        name: "Sternum",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Sternum.stl",
+        brief:
+          "The sternum (breastbone) sits in the center of the chest and connects to the ribs via cartilage, helping protect the heart and lungs."
+      },
+      {
+        id: "scapula",
+        name: "Scapula",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Scapula.stl",
+        brief:
+          "The scapula (shoulder blade) connects the humerus to the clavicle. It provides attachment for many shoulder muscles and enables a wide range of arm motion."
+      },
+      {
+        id: "patella",
+        name: "Patella",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Patella.stl",
+        brief:
+          "The patella (kneecap) sits within the quadriceps tendon and improves the leverage of the knee extensor muscles while protecting the front of the knee."
+      },
+      {
+        id: "pelvis",
+        name: "Pelvis (Hip bone)",
+        category: "Bone",
+        url: "https://commons.wikimedia.org/wiki/Special:FilePath/BodyParts3D_Pelvis.stl",
+        brief:
+          "The pelvis connects the spine to the lower limbs. It supports body weight and forms the hip sockets (acetabula) for the femurs."
+      }
+    ];
+
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x070b10);
+
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 200);
+    camera.position.set(0.0, 0.2, 3.2);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    viewport.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+    const key = new THREE.DirectionalLight(0xffffff, 0.95);
+    key.position.set(1.2, 1.4, 1.8);
+    scene.add(key);
+
+    // Picking
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const pickables = [];
+
+    let hoverGlow = true;
+    let hovered = null;
+    let selected = null;
+
+    function resize(){
+      const w = viewport.clientWidth;
+      const h = viewport.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+
+    function setTooltip(show, x=0, y=0, title="", meta=""){
+      if (!show){ tip.style.display = "none"; return; }
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+      tipName.textContent = title;
+      tipMeta.textContent = meta;
+      tip.style.display = "block";
+    }
+
+    function setSelection(mesh){
+      selected = mesh;
+      const p = mesh?.userData?.part;
+      if (!p){
+        selNameEl.textContent = "Nothing selected";
+        selMetaEl.textContent = "Hover a part to preview, click to pin.";
+        infoEl.textContent = "Click a part to see a short paragraph.";
+        return;
+      }
+      selNameEl.textContent = p.name;
+      selMetaEl.textContent = `${p.category} · Click another part to switch`;
+      infoEl.textContent = p.brief || "—";
+    }
+
+    function applyHover(mesh){
+      if (hovered === mesh) return;
+      clearHover();
+      hovered = mesh;
+      if (!hoverGlow) return;
+      const mat = hovered.material;
+      if (mat && mat.emissive){
+        mat.emissive.setHex(0x61dafb);
+        mat.emissiveIntensity = 0.55;
+        mat.needsUpdate = true;
+      }
+    }
+
+    function clearHover(){
+      if (!hovered) return;
+      const mat = hovered.material;
+      if (mat && mat.emissive){
+        mat.emissive.setHex(0x000000);
+        mat.emissiveIntensity = 0.0;
+        mat.needsUpdate = true;
+      }
+      hovered = null;
+      setTooltip(false);
+    }
+
+    function hitTest(clientX, clientY){
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(pickables, true);
+      return hits.length ? hits[0].object : null;
+    }
+
+    function fitView(){
+      const box = new THREE.Box3().setFromObject(scene);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+
+      controls.target.copy(center);
+
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI / 180);
+      const dist = (maxDim / 2) / Math.tan(fov / 2);
+
+      camera.position.set(center.x, center.y + maxDim * 0.1, center.z + dist * 1.35);
+      camera.near = Math.max(0.01, dist / 200);
+      camera.far = dist * 40;
+      camera.updateProjectionMatrix();
+      controls.update();
+    }
+
+    function addToList(part, mesh){
+      const div = document.createElement("div");
+      div.className = "listItem";
+      div.innerHTML = `
+        <div style="font-size:13px; opacity:.95">${part.name}</div>
+        <div class="muted" style="margin-top:2px">${part.category}</div>
+        <div class="muted" style="margin-top:6px; font-family:var(--mono); font-size:11px;">${part.id}</div>
+      `;
+      div.addEventListener("click", () => setSelection(mesh));
+      partsEl.appendChild(div);
+    }
+
+    async function loadModels(){
+      const loader = new STLLoader();
+
+      // Arrange parts in a simple row so you can see them immediately
+      const spacing = 1.2;
+      let i = 0;
+
+      for (const part of PARTS){
+        const geom = await loader.loadAsync(part.url);
+        geom.computeVertexNormals();
+
+        const mat = new THREE.MeshStandardMaterial({
+          color: 0xd9e2ef,
+          roughness: 0.9,
+          metalness: 0.05,
+          emissive: new THREE.Color(0x000000),
+          emissiveIntensity: 0.0
+        });
+
+        const mesh = new THREE.Mesh(geom, mat);
+        mesh.userData.part = part;
+
+        // Basic scaling + centering
+        const box = new THREE.Box3().setFromObject(mesh);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const maxDim = Math.max(size.x, size.y, size.z) || 1;
+
+        const targetSize = 0.9; // scene units
+        const s = targetSize / maxDim;
+        mesh.scale.setScalar(s);
+
+        // Recompute center after scaling
+        const box2 = new THREE.Box3().setFromObject(mesh);
+        const center = new THREE.Vector3();
+        box2.getCenter(center);
+        mesh.position.sub(center);
+
+        // Place in a row
+        mesh.position.x += (i - (PARTS.length - 1)/2) * spacing;
+        i++;
+
+        scene.add(mesh);
+        pickables.push(mesh);
+        addToList(part, mesh);
+      }
+
+      fitView();
+    }
+
+    // Pointer events
+    renderer.domElement.addEventListener("pointermove", (e) => {
+      const obj = hitTest(e.clientX, e.clientY);
+      if (!obj){
+        clearHover();
+        return;
+      }
+      const part = obj.userData.part;
+      applyHover(obj);
+      setTooltip(true, e.offsetX, e.offsetY, part?.name || "", part?.category || "");
+    });
+
+    renderer.domElement.addEventListener("pointerleave", () => clearHover());
+
+    renderer.domElement.addEventListener("pointerdown", (e) => {
+      const obj = hitTest(e.clientX, e.clientY);
+      if (!obj) return;
+      setSelection(obj);
+    });
+
+    // Buttons
+    fitBtn.addEventListener("click", fitView);
+    resetBtn.addEventListener("click", () => { setSelection(null); fitView(); });
+
+    toggleGlowBtn.addEventListener("click", () => {
+      hoverGlow = !hoverGlow;
+      toggleGlowBtn.textContent = hoverGlow ? "Hover glow: On" : "Hover glow: Off";
+      toggleGlowBtn.classList.toggle("primary", hoverGlow);
+      if (!hoverGlow) clearHover();
+    });
+
+    function animate(){
+      controls.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+
+    (async function init(){
+      resize();
+      await loadModels();
+      animate();
+    })().catch(err => {
+      console.error(err);
+      viewport.innerHTML = `<div style="padding:18px;color:#fff">
+        <b>Failed to load:</b> ${err.message}<br/><br/>
+        If you’re on GitHub Pages, make sure you’re using <code>https</code> and not opening the file directly.
+      </div>`;
+    });
+  </script>
+</body>
+</html>
