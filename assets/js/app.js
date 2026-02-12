@@ -12,7 +12,7 @@ const PLATES = {
   },
   vessels: {
     title: "Veins & arteries",
-    sub: "Circulation understanding (pre‑Harvey)",
+    sub: "Circulation understanding (pre-Harvey)",
     src: "assets/img/vesalius_vessels.jpg",
     credit: "Wikimedia Commons (Wellcome Collection scan) — Male figure showing veins and arteries, by Vesalius. File: vesalius_vessels.jpg",
     notes: [
@@ -39,7 +39,6 @@ const mImg = document.getElementById("mImg");
 const mTitle = document.getElementById("mTitle");
 const mSub = document.getElementById("mSub");
 const mCredit = document.getElementById("mCredit");
-const dots = document.getElementById("dots");
 const noteList = document.getElementById("noteList");
 
 function openModal(key){
@@ -49,58 +48,16 @@ function openModal(key){
   mTitle.textContent = plate.title;
   mSub.textContent = plate.sub;
   mCredit.textContent = plate.credit;
-
   mImg.src = plate.src;
 
-  dots.innerHTML = "";
   noteList.innerHTML = "";
 
-  
-const dotEls = [];
-const noteEls = [];
-
-function setActive(i){
-  dotEls.forEach(el => el.classList.remove("is-active"));
-  noteEls.forEach(el => el.classList.remove("is-active"));
-  if (dotEls[i]) dotEls[i].classList.add("is-active");
-  if (noteEls[i]) noteEls[i].classList.add("is-active");
-}
-
-plate.notes.forEach((n, idx) => {
-  const d = document.createElement("button");
-  d.className = "dot";
-  d.type = "button";
-  d.style.left = (n.x * 100) + "%";
-  d.style.top  = (n.y * 100) + "%";
-  d.setAttribute("aria-label", `Annotation ${idx + 1}: ${n.title}`);
-
-  const card = document.createElement("div");
-  card.className = "note";
-  card.id = `note-${key}-${idx}`;
-  card.innerHTML = `<b>${idx + 1}. ${escapeHtml(n.title)}</b><p>${escapeHtml(n.text)}</p>`;
-
-  // dot -> scroll & highlight the matching note
-  d.addEventListener("click", () => {
-    setActive(idx);
-    card.scrollIntoView({ behavior: "smooth", block: "start" });
-    flash(card);
+  plate.notes.forEach((n, idx) => {
+    const card = document.createElement("div");
+    card.className = "note";
+    card.innerHTML = `<b>${idx + 1}. ${escapeHtml(n.title)}</b><p>${escapeHtml(n.text)}</p>`;
+    noteList.appendChild(card);
   });
-
-  // note -> highlight matching dot (nice for students)
-  card.addEventListener("click", () => {
-    setActive(idx);
-    flash(card);
-  });
-
-  dots.appendChild(d);
-  noteList.appendChild(card);
-
-  dotEls.push(d);
-  noteEls.push(card);
-});
-
-// default highlight the first annotation
-if (plate.notes.length) setActive(0);
 
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
@@ -112,12 +69,12 @@ function closeModal(){
 }
 
 function escapeHtml(s){
-  return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-}
-
-function flash(el){
-  if (!el) return;
-  el.animate([{ transform:"scale(1)" }, { transform:"scale(1.02)" }, { transform:"scale(1)"}], { duration: 280 });
+  return String(s).replace(/[&<>"]/g, c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;'
+  }[c]));
 }
 
 document.querySelectorAll(".plate").forEach(btn => {
@@ -125,10 +82,11 @@ document.querySelectorAll(".plate").forEach(btn => {
 });
 
 modal.addEventListener("click", (e) => {
-  const close = e.target?.dataset?.close;
-  if (close) closeModal();
+  if (e.target?.dataset?.close) closeModal();
 });
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.getAttribute("aria-hidden") === "false") closeModal();
+  if (e.key === "Escape" && modal.getAttribute("aria-hidden") === "false"){
+    closeModal();
+  }
 });
