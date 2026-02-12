@@ -209,3 +209,11 @@ h3{ margin:0 0 8px; font-size:13px; letter-spacing:.2px; }
   .viewer{ grid-template-columns: 1fr; }
   .notes{ border-left:none; border-top:1px solid rgba(255,255,255,.10); }
 }
+.modal{
+  overflow-y: auto;
+}
+
+.modalCard{
+  max-height: 90vh;
+  overflow-y: auto;
+}
