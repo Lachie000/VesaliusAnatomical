@@ -55,26 +55,52 @@ function openModal(key){
   dots.innerHTML = "";
   noteList.innerHTML = "";
 
-  plate.notes.forEach((n, idx) => {
-    const d = document.createElement("button");
-    d.className = "dot";
-    d.type = "button";
-    d.style.left = (n.x * 100) + "%";
-    d.style.top  = (n.y * 100) + "%";
-    d.setAttribute("aria-label", `Annotation ${idx + 1}: ${n.title}`);
-    d.addEventListener("click", () => {
-      const el = document.getElementById(`note-${key}-${idx}`);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      flash(el);
-    });
-    dots.appendChild(d);
+  
+const dotEls = [];
+const noteEls = [];
 
-    const card = document.createElement("div");
-    card.className = "note";
-    card.id = `note-${key}-${idx}`;
-    card.innerHTML = `<b>${idx + 1}. ${escapeHtml(n.title)}</b><p>${escapeHtml(n.text)}</p>`;
-    noteList.appendChild(card);
+function setActive(i){
+  dotEls.forEach(el => el.classList.remove("is-active"));
+  noteEls.forEach(el => el.classList.remove("is-active"));
+  if (dotEls[i]) dotEls[i].classList.add("is-active");
+  if (noteEls[i]) noteEls[i].classList.add("is-active");
+}
+
+plate.notes.forEach((n, idx) => {
+  const d = document.createElement("button");
+  d.className = "dot";
+  d.type = "button";
+  d.style.left = (n.x * 100) + "%";
+  d.style.top  = (n.y * 100) + "%";
+  d.setAttribute("aria-label", `Annotation ${idx + 1}: ${n.title}`);
+
+  const card = document.createElement("div");
+  card.className = "note";
+  card.id = `note-${key}-${idx}`;
+  card.innerHTML = `<b>${idx + 1}. ${escapeHtml(n.title)}</b><p>${escapeHtml(n.text)}</p>`;
+
+  // dot -> scroll & highlight the matching note
+  d.addEventListener("click", () => {
+    setActive(idx);
+    card.scrollIntoView({ behavior: "smooth", block: "start" });
+    flash(card);
   });
+
+  // note -> highlight matching dot (nice for students)
+  card.addEventListener("click", () => {
+    setActive(idx);
+    flash(card);
+  });
+
+  dots.appendChild(d);
+  noteList.appendChild(card);
+
+  dotEls.push(d);
+  noteEls.push(card);
+});
+
+// default highlight the first annotation
+if (plate.notes.length) setActive(0);
 
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
