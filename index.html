@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple 3D Anatomy (Click to Learn)</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#101824; --text:#e7eef9; --muted:#9fb2cf;
+      --border:rgba(255,255,255,.10);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --accent:#61dafb;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; font-family:var(--sans); color:var(--text); background:var(--bg); overflow:hidden; }
+    #app{ display:grid; grid-template-columns: 340px 1fr 380px; height:100vh; }
+
+    .side,.right{
+      padding:14px; overflow:auto;
+      background: linear-gradient(180deg, rgba(16,24,36,.95), rgba(10,14,20,.85));
+    }
+    .side{ border-right:1px solid var(--border); }
+    .right{ border-left:1px solid var(--border); }
+
+    .card{
+      border:1px solid var(--border);
+      background: rgba(15,21,32,.65);
+      border-radius: var(--radius);
+      padding:12px;
+      margin-bottom:12px;
+    }
+    h1{ font-size:14px; margin:0 0 8px; letter-spacing:.2px; }
+    .muted{ color:var(--muted); font-size:12px; line-height:1.45; }
+    .pill{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.25);
+      color:var(--muted); font-size:12px; font-family:var(--mono);
+      margin-right:6px; margin-bottom:6px;
+      cursor:pointer;
+    }
+    label{ font-size:12px; color:var(--muted); display:block; margin:10px 0 6px; }
+    input[type="range"]{ width:100%; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(10,14,20,.55);
+      color:var(--text); cursor:pointer; user-select:none;
+    }
+    .btn:hover{ border-color: rgba(255,255,255,.16); }
+    .btn.primary{
+      border-color: rgba(97,218,251,.35);
+      background: linear-gradient(135deg, rgba(97,218,251,.16), rgba(167,139,250,.12));
+    }
+
+    #viewport{ position:relative; overflow:hidden; }
+    canvas{ display:block; width:100%; height:100%; }
+
+    .sectionTitle{
+      font-size:12px; text-transform:uppercase; letter-spacing:.14em;
+      color:var(--muted); margin:12px 0 8px;
+    }
+    .big{ font-size:15px; margin-top:6px; }
+    ul{ margin:8px 0 0 18px; padding:0; }
+    li{ margin:6px 0; color:var(--text); opacity:.92; line-height:1.5; font-size:13px; }
+
+    /* Tooltip */
+    #tip{
+      position:absolute; z-index:10;
+      pointer-events:none;
+      transform: translate(10px, 10px);
+      border:1px solid var(--border);
+      background: rgba(10,14,20,.88);
+      border-radius: 12px;
+      padding:8px 10px;
+      display:none;
+      max-width: 300px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    }
+    #tip .name{ font-weight:600; font-size:12px; }
+    #tip .meta{ font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:3px; }
+
+    .search{
+      width:100%; padding:10px 12px; border-radius:14px; border:1px solid var(--border);
+      background: rgba(10,14,20,.75); color:var(--text); outline:none;
+    }
+
+    @media (max-width: 1200px){
+      #app{ grid-template-columns: 1fr; grid-template-rows:auto 1fr auto; }
+      .side{ border-right:none; border-bottom:1px solid var(--border); }
+      .right{ border-left:none; border-top:1px solid var(--border); }
+      #viewport{ height: 58vh; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside class="side">
+      <div class="card">
+        <h1>Simple 3D Anatomy</h1>
+        <p class="muted">Hover to glow + tooltip. Click a part to read a short paragraph. This version uses built-in 3D shapes so it always loads on GitHub Pages.</p>
+        <div class="muted" style="margin-top:8px;">
+          <span class="pill" style="cursor:default;">Drag: rotate</span>
+          <span class="pill" style="cursor:default;">Wheel: zoom</span>
+          <span class="pill" style="cursor:default;">Right-drag: pan</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sectionTitle">Layers</div>
+
+        <label>Bone visibility</label>
+        <input id="bones" type="range" min="0" max="1" step="0.01" value="1" />
+
+        <label>Muscle/organs visibility</label>
+        <input id="muscles" type="range" min="0" max="1" step="0.01" value="0.35" />
+
+        <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+          <button class="btn primary" id="fitBtn">Fit view</button>
+          <button class="btn" id="spinBtn">Auto-rotate: Off</button>
+        </div>
+
+        <div class="sectionTitle" style="margin-top:14px;">Parts</div>
+        <input id="search" class="search" placeholder="Search (e.g. femur, heart, rib...)" />
+        <div id="partsList" class="muted" style="margin-top:10px; line-height:1.6;"></div>
+      </div>
+    </aside>
+
+    <main id="viewport" aria-label="3D viewport">
+      <div id="tip"><div class="name"></div><div class="meta"></div></div>
+    </main>
+
+    <aside class="right">
+      <div class="card">
+        <div class="sectionTitle">Selection</div>
+        <div class="big" id="selName">Nothing selected</div>
+        <div class="muted" id="selMeta">Hover to preview. Click to select.</div>
+      </div>
+
+      <div class="card">
+        <div class="sectionTitle">Brief info</div>
+        <div class="muted" id="selInfo">Click a part to see a short paragraph about what it is and what it does.</div>
+
+        <div class="sectionTitle">Key points</div>
+        <div id="selPoints"><div class="muted">—</div></div>
+      </div>
+    </aside>
+  </div>
+
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+    const viewport = document.getElementById("viewport");
+    const fitBtn = document.getElementById("fitBtn");
+    const spinBtn = document.getElementById("spinBtn");
+    const bonesRange = document.getElementById("bones");
+    const musclesRange = document.getElementById("muscles");
+    const searchEl = document.getElementById("search");
+    const partsList = document.getElementById("partsList");
+
+    const selName = document.getElementById("selName");
+    const selMeta = document.getElementById("selMeta");
+    const selInfo = document.getElementById("selInfo");
+    const selPoints = document.getElementById("selPoints");
+
+    const tip = document.getElementById("tip");
+    const tipName = tip.querySelector(".name");
+    const tipMeta = tip.querySelector(".meta");
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0f14);
+
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
+    camera.position.set(0.6, 0.4, 2.1);
+
+    const renderer = new THREE.WebGLRenderer({ antialias:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    viewport.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.target.set(0, 0.6, 0);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const key = new THREE.DirectionalLight(0xffffff, 1.0);
+    key.position.set(2, 3, 4);
+    scene.add(key);
+
+    const root = new THREE.Group();
+    scene.add(root);
+
+    const bonesGroup = new THREE.Group();
+    const musclesGroup = new THREE.Group();
+    root.add(bonesGroup);
+    root.add(musclesGroup);
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let hovered = null;
+    let selected = null;
+    let autoSpin = false;
+
+    const HOVER_EMISSIVE = new THREE.Color(0x61dafb);
+
+    const PARTS = [
+      { id:"skull", name:"Skull (Cranium)", kind:"Bone", group:"Skeleton",
+        info:"The skull protects the brain and forms the structure of the face. It also provides attachment points for muscles used in chewing and facial expression.",
+        points:["Protects brain","Supports face & jaw","Houses sensory openings"] },
+      { id:"mandible", name:"Mandible (Jaw)", kind:"Bone", group:"Skeleton",
+        info:"The mandible is the lower jaw bone. It moves to allow chewing and speaking, forming a joint with the temporal bone.",
+        points:["Only movable skull bone","Forms TMJ","Supports lower teeth"] },
+      { id:"clavicle", name:"Clavicle (Collarbone)", kind:"Bone", group:"Skeleton",
+        info:"The clavicle connects the arm to the trunk. It acts like a strut that holds the shoulder out from the body for a wide range of movement.",
+        points:["Links arm to torso","Stabilises shoulder","Common fracture site"] },
+      { id:"scapula", name:"Scapula (Shoulder Blade)", kind:"Bone", group:"Skeleton",
+        info:"A flat bone on the back of the chest that forms the shoulder socket. Many shoulder and back muscles attach here.",
+        points:["Forms shoulder socket","Major muscle attachment","Helps arm movement"] },
+      { id:"sternum", name:"Sternum (Breastbone)", kind:"Bone", group:"Skeleton",
+        info:"The sternum sits in the centre of the chest and anchors the ribs. It helps protect the heart and lungs.",
+        points:["Anchors ribs","Protects heart/lungs","Landmark for CPR"] },
+      { id:"ribs", name:"Rib Cage", kind:"Bone", group:"Skeleton",
+        info:"Ribs form a protective cage around the thoracic organs and assist breathing by expanding and compressing with the chest wall.",
+        points:["Protects heart/lungs","Supports breathing mechanics","Attaches to spine + sternum"] },
+      { id:"spine", name:"Vertebral Column (Spine)", kind:"Bone", group:"Skeleton",
+        info:"The spine supports the body, protects the spinal cord, and allows controlled flexibility. It also transfers weight to the pelvis.",
+        points:["Protects spinal cord","Supports posture","Allows bending/rotation"] },
+      { id:"pelvis", name:"Pelvis", kind:"Bone", group:"Skeleton",
+        info:"The pelvis connects the spine to the legs and forms the hip sockets. It supports body weight and protects pelvic organs.",
+        points:["Transfers weight to legs","Hip sockets (acetabulum)","Protects pelvic organs"] },
+      { id:"humerus", name:"Humerus", kind:"Bone", group:"Skeleton",
+        info:"The humerus is the upper arm bone. It forms joints at the shoulder and elbow to position the forearm and hand.",
+        points:["Shoulder + elbow joints","Leverage for arm muscles","Upper arm support"] },
+      { id:"radius", name:"Radius", kind:"Bone", group:"Skeleton",
+        info:"The radius is one of the forearm bones on the thumb side. It rotates around the ulna to turn the palm up or down.",
+        points:["Thumb-side forearm","Pronation/supination","Wrist joint contributor"] },
+      { id:"ulna", name:"Ulna", kind:"Bone", group:"Skeleton",
+        info:"The ulna is the other forearm bone, forming the main hinge at the elbow. It provides stability for the forearm.",
+        points:["Main elbow hinge","Forearm stability","Pairs with radius"] },
+      { id:"femur", name:"Femur", kind:"Bone", group:"Skeleton",
+        info:"The femur is the strongest and longest bone. It carries body weight and connects the hip to the knee.",
+        points:["Major weight-bearing bone","Hip + knee joints","Powerful muscle attachments"] },
+      { id:"tibia", name:"Tibia", kind:"Bone", group:"Skeleton",
+        info:"The tibia (shin bone) supports most of the weight in the lower leg and forms the knee and ankle joints.",
+        points:["Primary lower-leg weight support","Forms knee + ankle","Shin bone"] },
+      { id:"fibula", name:"Fibula", kind:"Bone", group:"Skeleton",
+        info:"A slimmer bone alongside the tibia. It stabilises the ankle and provides muscle attachment, but carries less weight.",
+        points:["Ankle stability","Muscle attachment","Less weight-bearing"] },
+
+      { id:"deltoid", name:"Deltoid", kind:"Muscle", group:"Muscles",
+        info:"The deltoid covers the shoulder and lifts the arm away from the body. Different fibres help move the arm forward, backward, and outward.",
+        points:["Arm abduction","Shoulder shape","Works with rotator cuff"] },
+      { id:"pectoralis", name:"Pectoralis Major", kind:"Muscle", group:"Muscles",
+        info:"A large chest muscle that pulls the arm across the body and helps with pushing actions like push-ups or throwing.",
+        points:["Adducts arm","Powerful pushing","Attaches to humerus"] },
+      { id:"biceps", name:"Biceps Brachii", kind:"Muscle", group:"Muscles",
+        info:"The biceps bends the elbow and helps rotate the forearm so the palm faces upward. It also helps stabilise the shoulder.",
+        points:["Elbow flexion","Forearm supination","Assists shoulder stability"] },
+      { id:"triceps", name:"Triceps Brachii", kind:"Muscle", group:"Muscles",
+        info:"The triceps straightens the elbow. It is active in pushing movements and stabilises the elbow joint.",
+        points:["Elbow extension","Pushing strength","Stabilises elbow"] },
+      { id:"rectus", name:"Rectus Abdominis", kind:"Muscle", group:"Muscles",
+        info:"A front abdominal muscle that flexes the spine and helps maintain posture. It also assists forced exhalation.",
+        points:["Trunk flexion","Posture support","Helps forced exhalation"] },
+      { id:"obliques", name:"External Obliques", kind:"Muscle", group:"Muscles",
+        info:"These side abdominal muscles rotate and bend the trunk, and work with core muscles to stabilise the spine.",
+        points:["Trunk rotation","Side bending","Core stability"] },
+      { id:"gluteus", name:"Gluteus Maximus", kind:"Muscle", group:"Muscles",
+        info:"A large hip muscle that extends the hip, powering actions like standing up, climbing stairs, and sprinting.",
+        points:["Hip extension","Power for running/climbing","Stabilises pelvis"] },
+      { id:"quadriceps", name:"Quadriceps", kind:"Muscle", group:"Muscles",
+        info:"A group of muscles on the front of the thigh that straightens the knee. Essential for walking, jumping, and kicking.",
+        points:["Knee extension","Stabilises knee","Key for jumping/kicking"] },
+      { id:"hamstrings", name:"Hamstrings", kind:"Muscle", group:"Muscles",
+        info:"Muscles on the back of the thigh that bend the knee and extend the hip. They help control leg swing during running.",
+        points:["Knee flexion","Hip extension","Controls running stride"] },
+      { id:"gastrocnemius", name:"Gastrocnemius", kind:"Muscle", group:"Muscles",
+        info:"A major calf muscle that points the foot downward and helps bend the knee. It’s important for walking and jumping.",
+        points:["Plantarflexion","Helps knee flexion","Power for push-off"] },
+
+      { id:"heart", name:"Heart", kind:"Organ", group:"Organs",
+        info:"The heart pumps blood through the lungs and the rest of the body. It keeps oxygen and nutrients moving to tissues.",
+        points:["Pumps blood","Drives circulation","Works with lungs for oxygen delivery"] },
+      { id:"lungs", name:"Lungs", kind:"Organ", group:"Organs",
+        info:"The lungs exchange oxygen and carbon dioxide. Air moves in and out as the diaphragm and chest wall change volume.",
+        points:["Gas exchange","Works with diaphragm","Supports blood oxygenation"] },
+      { id:"diaphragm", name:"Diaphragm", kind:"Muscle", group:"Organs",
+        info:"A dome-shaped muscle under the lungs. When it contracts, it pulls downward to draw air into the lungs.",
+        points:["Primary breathing muscle","Increases chest volume","Separates chest/abdomen"] },
+      { id:"liver", name:"Liver", kind:"Organ", group:"Organs",
+        info:"The liver processes nutrients, makes important proteins, and helps detoxify substances. It also produces bile for digestion.",
+        points:["Metabolism + detox","Produces bile","Stores glycogen"] },
+      { id:"stomach", name:"Stomach", kind:"Organ", group:"Organs",
+        info:"The stomach breaks down food with acid and enzymes and mixes it before it moves to the intestines.",
+        points:["Mechanical mixing","Acid + enzyme digestion","Controls emptying to intestines"] },
+      { id:"intestines", name:"Intestines", kind:"Organ", group:"Organs",
+        info:"The small intestine absorbs most nutrients, while the large intestine absorbs water and forms waste.",
+        points:["Nutrient absorption (small)","Water absorption (large)","Forms waste"] },
+    ];
+    const partById = Object.fromEntries(PARTS.map(p => [p.id, p]));
+    const pickables = [];
+
+    function makeMat(baseColor, opacity=1){
+      return new THREE.MeshStandardMaterial({
+        color: baseColor,
+        transparent: opacity < 1,
+        opacity,
+        roughness: 0.85,
+        metalness: 0.0,
+        emissive: new THREE.Color(0x000000),
+        emissiveIntensity: 0.0
+      });
+    }
+    function tag(mesh, partId){
+      mesh.userData.partId = partId;
+      mesh.userData.baseEmissive = mesh.material.emissive.clone();
+      mesh.userData.baseEmissiveIntensity = mesh.material.emissiveIntensity;
+      return mesh;
+    }
+    function addPickable(mesh, group, partId){
+      tag(mesh, partId);
+      group.add(mesh);
+      pickables.push(mesh);
+      return mesh;
+    }
+    function sphere(r, color, opacity=1){
+      return new THREE.Mesh(new THREE.SphereGeometry(r, 24, 18), makeMat(color, opacity));
+    }
+    function capsule(radius, length, color, opacity=1){
+      return new THREE.Mesh(new THREE.CapsuleGeometry(radius, length, 10, 18), makeMat(color, opacity));
+    }
+
+    const boneCol = 0xdad7c7;
+    const muscleCol = 0x7b3f3f;
+
+    // Skeleton
+    const skull = addPickable(sphere(0.16, boneCol, 1), bonesGroup, "skull");
+    skull.position.set(0, 1.55, 0);
+    const jaw = addPickable(capsule(0.06, 0.08, boneCol, 1), bonesGroup, "mandible");
+    jaw.position.set(0, 1.43, 0.04);
+    jaw.rotation.x = Math.PI * 0.08;
+
+    const spine = addPickable(capsule(0.05, 0.55, boneCol, 1), bonesGroup, "spine");
+    spine.position.set(0, 1.05, 0);
+
+    const sternum = addPickable(capsule(0.035, 0.22, boneCol, 1), bonesGroup, "sternum");
+    sternum.position.set(0, 1.13, 0.10);
+
+    const ribs = addPickable(sphere(0.23, boneCol, 0.22), bonesGroup, "ribs");
+    ribs.position.set(0, 1.15, 0.05);
+    ribs.scale.set(1.12, 0.78, 0.75);
+
+    const clavL = addPickable(capsule(0.02, 0.16, boneCol, 1), bonesGroup, "clavicle");
+    clavL.position.set(-0.16, 1.28, 0.10);
+    clavL.rotation.z = Math.PI * 0.18;
+    const clavR = addPickable(capsule(0.02, 0.16, boneCol, 1), bonesGroup, "clavicle");
+    clavR.position.set(0.16, 1.28, 0.10);
+    clavR.rotation.z = -Math.PI * 0.18;
+
+    const scapL = addPickable(sphere(0.07, boneCol, 1), bonesGroup, "scapula");
+    scapL.position.set(-0.22, 1.2, -0.05);
+    scapL.scale.set(0.9, 1.2, 0.5);
+    const scapR = addPickable(sphere(0.07, boneCol, 1), bonesGroup, "scapula");
+    scapR.position.set(0.22, 1.2, -0.05);
+    scapR.scale.set(0.9, 1.2, 0.5);
+
+    const pelvis = addPickable(sphere(0.16, boneCol, 1), bonesGroup, "pelvis");
+    pelvis.position.set(0, 0.75, 0);
+    pelvis.scale.set(1.25, 0.75, 0.9);
+
+    function arm(side){
+      const s = side;
+      const x = 0.33 * s;
+      const hum = addPickable(capsule(0.035, 0.30, boneCol, 1), bonesGroup, "humerus");
+      hum.position.set(x, 1.12, 0.03);
+      hum.rotation.z = -s * Math.PI * 0.10;
+
+      const rad = addPickable(capsule(0.026, 0.25, boneCol, 1), bonesGroup, "radius");
+      rad.position.set(x + 0.06*s, 0.86, 0.02);
+      rad.rotation.z = -s * Math.PI * 0.10;
+
+      const uln = addPickable(capsule(0.026, 0.25, boneCol, 1), bonesGroup, "ulna");
+      uln.position.set(x + 0.03*s, 0.86, -0.02);
+      uln.rotation.z = -s * Math.PI * 0.10;
+    }
+    arm(-1); arm(1);
+
+    function leg(side){
+      const s = side;
+      const x = 0.14 * s;
+      const fem = addPickable(capsule(0.045, 0.42, boneCol, 1), bonesGroup, "femur");
+      fem.position.set(x, 0.42, 0.02);
+
+      const tib = addPickable(capsule(0.038, 0.40, boneCol, 1), bonesGroup, "tibia");
+      tib.position.set(x, 0.08, 0.02);
+
+      const fib = addPickable(capsule(0.022, 0.38, boneCol, 1), bonesGroup, "fibula");
+      fib.position.set(x + 0.06*s, 0.10, -0.01);
+    }
+    leg(-1); leg(1);
+
+    // Muscles/organs
+    addPickable(sphere(0.09, muscleCol, 0.35), musclesGroup, "deltoid").position.set(-0.33, 1.18, 0.03);
+    addPickable(sphere(0.09, muscleCol, 0.35), musclesGroup, "deltoid").position.set(0.33, 1.18, 0.03);
+
+    const pec = addPickable(sphere(0.22, muscleCol, 0.22), musclesGroup, "pectoralis");
+    pec.position.set(0, 1.10, 0.14);
+    pec.scale.set(1.05, 0.65, 0.6);
+
+    function upperArmMuscles(side){
+      const s = side;
+      const x = 0.37*s;
+      const b = addPickable(capsule(0.045, 0.18, muscleCol, 0.35), musclesGroup, "biceps");
+      b.position.set(x, 1.03, 0.09);
+      b.rotation.z = -s*Math.PI*0.10;
+
+      const t = addPickable(capsule(0.045, 0.18, muscleCol, 0.35), musclesGroup, "triceps");
+      t.position.set(x, 1.03, -0.05);
+      t.rotation.z = -s*Math.PI*0.10;
+    }
+    upperArmMuscles(-1); upperArmMuscles(1);
+
+    addPickable(capsule(0.11, 0.25, muscleCol, 0.28), musclesGroup, "rectus").position.set(0, 0.95, 0.12);
+
+    const obL = addPickable(capsule(0.08, 0.22, muscleCol, 0.24), musclesGroup, "obliques");
+    obL.position.set(-0.16, 0.92, 0.05);
+    obL.rotation.z = Math.PI*0.18;
+    const obR = addPickable(capsule(0.08, 0.22, muscleCol, 0.24), musclesGroup, "obliques");
+    obR.position.set(0.16, 0.92, 0.05);
+    obR.rotation.z = -Math.PI*0.18;
+
+    addPickable(sphere(0.11, muscleCol, 0.30), musclesGroup, "gluteus").position.set(-0.12, 0.70, -0.06);
+    addPickable(sphere(0.11, muscleCol, 0.30), musclesGroup, "gluteus").position.set(0.12, 0.70, -0.06);
+
+    function legMuscles(side){
+      const s = side;
+      const x = 0.14*s;
+      addPickable(capsule(0.065, 0.24, muscleCol, 0.28), musclesGroup, "quadriceps").position.set(x, 0.45, 0.09);
+      addPickable(capsule(0.060, 0.24, muscleCol, 0.26), musclesGroup, "hamstrings").position.set(x, 0.45, -0.05);
+      addPickable(capsule(0.055, 0.18, muscleCol, 0.28), musclesGroup, "gastrocnemius").position.set(x, 0.12, -0.04);
+    }
+    legMuscles(-1); legMuscles(1);
+
+    addPickable(sphere(0.075, 0xb85a5a, 0.55), musclesGroup, "heart").position.set(-0.03, 1.13, 0.06);
+
+    const lungs = addPickable(sphere(0.15, 0xa9c5d6, 0.38), musclesGroup, "lungs");
+    lungs.position.set(0, 1.15, 0.03);
+    lungs.scale.set(1.15, 0.85, 0.9);
+
+    const diaphragm = addPickable(capsule(0.11, 0.10, 0x7b3f3f, 0.22), musclesGroup, "diaphragm");
+    diaphragm.position.set(0, 1.00, 0.03);
+    diaphragm.rotation.x = Math.PI*0.5;
+
+    const liver = addPickable(sphere(0.12, 0x7d4b2b, 0.45), musclesGroup, "liver");
+    liver.position.set(0.10, 0.93, 0.07);
+    liver.scale.set(1.25, 0.65, 0.85);
+
+    const stomach = addPickable(sphere(0.08, 0x915a3d, 0.45), musclesGroup, "stomach");
+    stomach.position.set(-0.12, 0.92, 0.06);
+    stomach.scale.set(1.1, 0.7, 0.8);
+
+    const intestines = addPickable(sphere(0.14, 0xb58b6c, 0.35), musclesGroup, "intestines");
+    intestines.position.set(0, 0.78, 0.06);
+    intestines.scale.set(1.3, 0.9, 1.1);
+
+    // Parts list
+    function renderPartsList(filter=""){
+      const q = filter.trim().toLowerCase();
+      const shown = PARTS.filter(p => !q || p.name.toLowerCase().includes(q) || p.id.includes(q) || p.kind.toLowerCase().includes(q));
+      partsList.innerHTML = shown.map(p => `<span class="pill" data-id="${p.id}">${p.name}</span>`).join(" ");
+      partsList.querySelectorAll("[data-id]").forEach(el => {
+        el.addEventListener("click", () => selectById(el.getAttribute("data-id")));
+      });
+    }
+    renderPartsList();
+    searchEl.addEventListener("input", () => renderPartsList(searchEl.value));
+
+    function setPanel(part){
+      if (!part){
+        selName.textContent = "Nothing selected";
+        selMeta.textContent = "Hover to preview. Click to select.";
+        selInfo.textContent = "Click a part to see a short paragraph about what it is and what it does.";
+        selPoints.innerHTML = `<div class="muted">—</div>`;
+        return;
+      }
+      selName.textContent = part.name;
+      selMeta.textContent = `${part.kind} · ${part.group}`;
+      selInfo.textContent = part.info;
+
+      if (part.points?.length){
+        const ul = document.createElement("ul");
+        part.points.forEach(t => {
+          const li = document.createElement("li");
+          li.textContent = t;
+          ul.appendChild(li);
+        });
+        selPoints.innerHTML = "";
+        selPoints.appendChild(ul);
+      } else {
+        selPoints.innerHTML = `<div class="muted">—</div>`;
+      }
+    }
+
+    function highlight(mesh, on, strength=0.85){
+      if (!mesh) return;
+      const mat = mesh.material;
+      if (!mat || !mat.emissive) return;
+      if (on){
+        mat.emissive.copy(HOVER_EMISSIVE);
+        mat.emissiveIntensity = strength;
+      } else {
+        mat.emissive.copy(mesh.userData.baseEmissive);
+        mat.emissiveIntensity = mesh.userData.baseEmissiveIntensity || 0.0;
+      }
+    }
+
+    function selectById(id){
+      const mesh = pickables.find(m => m.userData.partId === id);
+      if (!mesh) return;
+
+      // clear previous selection glow
+      if (selected && selected !== mesh){
+        highlight(selected, false);
+      }
+      selected = mesh;
+
+      const part = partById[id];
+      setPanel(part);
+
+      // selection glow (subtle)
+      highlight(selected, true, 0.35);
+    }
+
+    function updateTooltip(ev, mesh){
+      if (!mesh){
+        tip.style.display = "none";
+        return;
+      }
+      const part = partById[mesh.userData.partId];
+      if (!part){
+        tip.style.display = "none";
+        return;
+      }
+      tipName.textContent = part.name;
+      tipMeta.textContent = `${part.kind} · ${part.group}`;
+      tip.style.display = "block";
+      tip.style.left = ev.clientX + "px";
+      tip.style.top = ev.clientY + "px";
+    }
+
+    function onPointerMove(ev){
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -(((ev.clientY - rect.top) / rect.height) * 2 - 1);
+
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(pickables, false);
+      const hit = hits[0]?.object || null;
+
+      if (hit !== hovered){
+        if (hovered && hovered !== selected) highlight(hovered, false);
+        hovered = hit;
+        if (hovered && hovered !== selected) highlight(hovered, true, 0.85);
+      }
+
+      updateTooltip(ev, hovered);
+
+      if (hovered && hovered !== selected){
+        const part = partById[hovered.userData.partId];
+        selName.textContent = part?.name || "Nothing selected";
+        selMeta.textContent = part ? `Preview · ${part.kind} · ${part.group}` : "Hover to preview. Click to select.";
+      } else if (!selected){
+        selName.textContent = "Nothing selected";
+        selMeta.textContent = "Hover to preview. Click to select.";
+      }
+    }
+
+    function onClick(){
+      if (!hovered) return;
+      selectById(hovered.userData.partId);
+    }
+
+    renderer.domElement.addEventListener("pointermove", onPointerMove);
+    renderer.domElement.addEventListener("click", onClick);
+
+    // Visibility sliders
+    function applyVis(){
+      const b = parseFloat(bonesRange.value);
+      const m = parseFloat(musclesRange.value);
+
+      bonesGroup.traverse(obj => {
+        if (obj.isMesh){
+          obj.visible = b > 0.001;
+          obj.material.opacity = Math.min(1, Math.max(0.02, b));
+          obj.material.transparent = obj.material.opacity < 1;
+          obj.material.needsUpdate = true;
+        }
+      });
+
+      musclesGroup.traverse(obj => {
+        if (obj.isMesh){
+          obj.visible = m > 0.001;
+          obj.material.opacity = Math.min(1, Math.max(0.02, m));
+          obj.material.transparent = obj.material.opacity < 1;
+          obj.material.needsUpdate = true;
+        }
+      });
+    }
+    bonesRange.addEventListener("input", applyVis);
+    musclesRange.addEventListener("input", applyVis);
+    applyVis();
+
+    // Fit view
+    function fitView(){
+      const box = new THREE.Box3().setFromObject(root);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+
+      controls.target.copy(center);
+
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI / 180);
+      const dist = (maxDim / 2) / Math.tan(fov / 2);
+
+      camera.position.set(center.x + dist*0.25, center.y + dist*0.12, center.z + dist*1.25);
+      camera.near = Math.max(0.01, dist / 100);
+      camera.far = dist * 10;
+      camera.updateProjectionMatrix();
+      controls.update();
+    }
+    fitBtn.addEventListener("click", fitView);
+
+    // Auto rotate
+    spinBtn.addEventListener("click", () => {
+      autoSpin = !autoSpin;
+      spinBtn.textContent = `Auto-rotate: ${autoSpin ? "On" : "Off"}`;
+      spinBtn.classList.toggle("primary", autoSpin);
+    });
+
+    // Resize
+    function resize(){
+      const w = viewport.clientWidth;
+      const h = viewport.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    fitView();
+    setPanel(null);
+
+    function animate(){
+      requestAnimationFrame(animate);
+      if (autoSpin && !controls.dragging){
+        root.rotation.y += 0.0035;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
