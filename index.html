@@ -139,6 +139,23 @@
       display:block;
     }
 
+    /* Status overlay */
+    #status{
+      position:absolute; inset:0; z-index:20;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(0,0,0,.28);
+      backdrop-filter: blur(6px);
+    }
+    #status .box{
+      width:min(680px, 92%);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,12,20,.86);
+      border-radius: 18px;
+      padding:14px;
+      box-shadow: 0 20px 48px rgba(0,0,0,.35);
+    }
+    #status code{ font-family: var(--mono); font-size:12px; color: var(--muted); }
+
     @media (max-width: 1200px){
       #app{ grid-template-columns: 1fr; grid-template-rows:auto 1fr auto; }
       .side{ border-right:none; border-bottom:1px solid var(--border); }
@@ -214,6 +231,17 @@
 
     <main id="viewport" aria-label="3D viewport">
       <div id="tip"><div class="t1" id="tipName">—</div><div class="t2" id="tipMeta">—</div></div>
+
+      <div id="status">
+        <div class="box">
+          <div class="kpi">Loading…</div>
+          <div class="muted" style="margin-top:6px">
+            Fetching <code>assets/data/vesalius.json</code> and plate images.
+            <br>Open DevTools → Console if it doesn’t load.
+          </div>
+        </div>
+      </div>
+
       <div class="hudPanel" id="tracePanel">
         <div class="kpi">Trace output</div>
         <div class="muted" style="margin:6px 0 10px;">
@@ -254,11 +282,13 @@
   </div>
 
   <script type="module">
+    // ✅ GitHub Pages safe: CDN module imports (NO bare "three" import)
     import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
     import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
     // DOM
     const viewport = document.getElementById("viewport");
+    const statusEl = document.getElementById("status");
     const titleEl = document.getElementById("title");
     const layerSelect = document.getElementById("layerSelect");
     const opacityEl = document.getElementById("opacity");
@@ -300,6 +330,7 @@
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.domElement.style.touchAction = "none";
     viewport.appendChild(renderer.domElement);
 
     // Lights
@@ -327,12 +358,12 @@
 
     // Data
     let DATA = null;
-    let layerMeshes = []; // {layer, planeMesh, regionMeshes}
+    let layerMeshes = [];
     let activeLayerId = null;
     let showRegionHighlight = false;
 
     // Hover state
-    let hovered = null; // mesh
+    let hovered = null;
     const hoverColor = new THREE.Color(0x61dafb);
     const baseColor = new THREE.Color(0x000000);
 
@@ -394,8 +425,10 @@
     }
 
     async function loadData(){
+      // NOTE: This path MUST exist in your repo:
+      // /assets/data/vesalius.json
       const res = await fetch("assets/data/vesalius.json", { cache: "no-cache" });
-      if (!res.ok) throw new Error("Failed to load assets/data/vesalius.json");
+      if (!res.ok) throw new Error(`Failed to load assets/data/vesalius.json (HTTP ${res.status})`);
       return await res.json();
     }
 
@@ -572,7 +605,12 @@
       bookmarkBtn.textContent = bookmarks.has(region.id) ? "★ Bookmarked" : "☆ Bookmark";
     }
 
-    function setTip(x, y, region, layer){
+    // ✅ Tooltip placement fix: use client coords -> viewport coords
+    function setTip(clientX, clientY, region, layer){
+      const rect = viewport.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
       tip.style.left = x + "px";
       tip.style.top = y + "px";
       tipName.textContent = region?.name || "";
@@ -664,7 +702,9 @@
       const q = (searchEl.value || "").trim().toLowerCase();
       const regs = (L.regions || []).filter(r => {
         if (!q) return true;
-        return (r.name || "").toLowerCase().includes(q) || (r.kind || "").toLowerCase().includes(q) || (r.id || "").toLowerCase().includes(q);
+        return (r.name || "").toLowerCase().includes(q)
+          || (r.kind || "").toLowerCase().includes(q)
+          || (r.id || "").toLowerCase().includes(q);
       });
 
       partsList.innerHTML = "";
@@ -679,16 +719,9 @@
           </div>
           <div class="badge">${escapeHtml(r.id)}</div>
         `;
-        row.addEventListener("mouseenter", () => {
-          // tooltip preview even from list
-          setTip(12, 12, r, L);
-        });
-        row.addEventListener("mouseleave", () => { tip.style.display = "none"; });
         row.addEventListener("click", () => {
           setInfo(r, L);
-          if (studyMode && studyTarget){
-            if (r.id === studyTarget){ nextStudyTarget(true); }
-          }
+          if (studyMode && studyTarget && r.id === studyTarget) nextStudyTarget(true);
         });
         partsList.appendChild(row);
       });
@@ -718,7 +751,7 @@
 
     // Hover handling
     renderer.domElement.addEventListener("pointermove", (e) => {
-      if (traceMode) return; // tracing handles clicks
+      if (traceMode) return;
       const obj = hitTest(e.clientX, e.clientY);
       if (!obj){
         clearHover();
@@ -729,7 +762,7 @@
       const layer = DATA.layers.find(l => l.id === layerId);
 
       applyHover(obj);
-      setTip(e.offsetX, e.offsetY, region, layer);
+      setTip(e.clientX, e.clientY, region, layer);
     });
 
     renderer.domElement.addEventListener("pointerleave", () => { clearHover(); });
@@ -754,9 +787,7 @@
 
       setInfo(region, layer);
 
-      if (studyMode && studyTarget){
-        if (region.id === studyTarget) nextStudyTarget(true);
-      }
+      if (studyMode && studyTarget && region.id === studyTarget) nextStudyTarget(true);
     });
 
     window.addEventListener("keydown", (e) => {
@@ -791,7 +822,6 @@
         });
       });
 
-      // preserve hover glow even when regions hidden
       if (hovered){
         hovered.material.color.copy(hoverColor);
         hovered.material.opacity = 0.28;
@@ -858,13 +888,23 @@
       DATA = await loadData();
       await buildLayers();
       bmCountPill.textContent = String(bookmarks.size);
+      statusEl.style.display = "none";
       animate();
     })().catch(err => {
       console.error(err);
-      viewport.innerHTML = `<div style="padding:18px;color:#fff">
-        <b>Failed to start:</b> ${err.message}<br/><br/>
-        Check <code>assets/data/vesalius.json</code> and image paths in <code>assets/plates</code>.
-      </div>`;
+      statusEl.innerHTML = `
+        <div class="box">
+          <div class="kpi">Failed to start</div>
+          <div class="muted" style="margin-top:6px">
+            <b>${escapeHtml(err.message)}</b><br><br>
+            Most common causes on GitHub Pages:
+            <ul>
+              <li><code>assets/data/vesalius.json</code> missing or wrong case</li>
+              <li>plate image paths in JSON don’t exist under <code>assets/plates/</code></li>
+            </ul>
+          </div>
+        </div>
+      `;
     });
   </script>
 </body>
