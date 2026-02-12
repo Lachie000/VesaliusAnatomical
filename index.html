@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>3D Anatomy Click Atlas</title>
+  <style>
+    :root{
+      --bg:#070b10; --text:#e7eef9; --muted:#9fb2cf; --border:rgba(255,255,255,.10);
+      --panel:rgba(12,18,32,.66); --radius:18px; --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --acc: rgba(97,218,251,.95);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; font-family:var(--sans); color:var(--text);
+      background:radial-gradient(1200px 900px at 20% 0%, rgba(97,218,251,.08), transparent 45%),
+              radial-gradient(1200px 900px at 90% 10%, rgba(167,139,250,.08), transparent 45%),
+              var(--bg);
+    }
+    #app{ display:grid; grid-template-columns: 340px 1fr 420px; height:100vh; }
+    .side,.right{ padding:14px; overflow:auto; background: linear-gradient(180deg, rgba(14,22,34,.92), rgba(7,11,16,.78)); backdrop-filter: blur(10px); }
+    .side{ border-right:1px solid var(--border); }
+    .right{ border-left:1px solid var(--border); }
+    .card{ border:1px solid var(--border); background: var(--panel); border-radius: var(--radius); padding:12px; margin-bottom:12px; box-shadow: 0 12px 28px rgba(0,0,0,.22);}
+    h1{ font-size:14px; margin:0 0 8px; letter-spacing:.2px; }
+    .muted{ color:var(--muted); font-size:12px; line-height:1.45; }
+    label{ font-size:12px; color:var(--muted); display:block; margin:10px 0 6px; }
+    input[type="range"], input[type="text"]{ width:100%; }
+    input[type="text"]{ padding:10px 12px; border-radius:14px; border:1px solid var(--border); background: rgba(8,12,20,.75); color:var(--text); outline:none; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 12px; border-radius:14px; border:1px solid var(--border);
+      background: rgba(8,12,20,.55); color:var(--text); cursor:pointer; user-select:none; transition: transform .06s ease, border-color .18s ease, background .18s ease;}
+    .btn:hover{ border-color: rgba(255,255,255,.16); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{ border-color: rgba(97,218,251,.35); background: linear-gradient(135deg, rgba(97,218,251,.16), rgba(167,139,250,.12)); }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .pill{ display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background: rgba(0,0,0,.25);
+      color:var(--muted); font-size:12px; font-family:var(--mono); margin-right:6px; margin-bottom:6px;}
+    .kpi{ font-family:var(--mono); font-size:12px; color:var(--muted); }
+    #viewport{ position:relative; overflow:hidden; }
+    canvas{ display:block; width:100%; height:100%; }
+    #tip{
+      position:absolute; z-index:10; pointer-events:none; transform: translate(12px, 12px);
+      padding:8px 10px; border-radius: 12px; border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,12,20,.86); box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      display:none; max-width: 320px;
+    }
+    #tip .t1{ font-size:12px; color: var(--text); opacity:.95; }
+    #tip .t2{ font-size:11px; color: var(--muted); margin-top:2px; font-family: var(--mono); }
+    .partRow{
+      display:flex; gap:10px; align-items:center; padding:10px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.07); background: rgba(0,0,0,.18);
+      cursor:pointer; transition: border-color .15s ease, background .15s ease; margin-bottom:8px;
+    }
+    .partRow:hover{ border-color: rgba(97,218,251,.22); background: rgba(97,218,251,.06); }
+    .badge{ font-family:var(--mono); font-size:11px; color:var(--muted); border:1px solid rgba(255,255,255,.10);
+      padding:4px 8px; border-radius:999px; background: rgba(0,0,0,.22); white-space:nowrap; }
+    ul{ margin:8px 0 0 18px; padding:0; }
+    li{ margin:6px 0; color:var(--text); opacity:.92; line-height:1.5; font-size:13px; }
+    @media (max-width: 1200px){
+      #app{ grid-template-columns: 1fr; grid-template-rows:auto 58vh auto; }
+      .side{ border-right:none; border-bottom:1px solid var(--border); }
+      .right{ border-left:none; border-top:1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <aside class="side">
+    <div class="card">
+      <h1>3D Anatomy Click Atlas</h1>
+      <p class="muted">
+        Simple GitHub-Pages-safe 3D model (built from shapes) with hover glow + tooltips. Click a part to show brief info.
+        <br><br>
+        <span class="pill">Drag</span> rotate <span class="pill">Wheel</span> zoom <span class="pill">Right-drag</span> pan
+      </p>
+      <p class="muted">
+        <b>Important:</b> I can't pull in or reproduce text from a modern book for you. This demo uses short, general anatomy summaries.
+        If you want <i>book-specific</i> wording, paste your own notes/excerpts and I can format them into the data safely.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="kpi">Layers</div>
+      <label>Skeleton opacity</label>
+      <input id="bonesOpacity" type="range" min="0" max="1" step="0.01" value="1" />
+      <label>Muscle opacity</label>
+      <input id="muscleOpacity" type="range" min="0" max="1" step="0.01" value="0.35" />
+      <label>Organs opacity</label>
+      <input id="organsOpacity" type="range" min="0" max="1" step="0.01" value="0.35" />
+
+      <div class="row" style="margin-top:10px;">
+        <button class="btn primary" id="fitBtn">Fit view</button>
+        <button class="btn" id="toggleLabelsBtn">Tooltips: On</button>
+        <button class="btn" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="kpi">Find a part</div>
+      <input id="search" type="text" placeholder="e.g. femur, humerus, heart…" />
+      <div style="margin-top:10px" class="row">
+        <span class="pill" id="countPill">—</span>
+      </div>
+      <div style="margin-top:10px" id="partsList"></div>
+    </div>
+  </aside>
+
+  <main id="viewport">
+    <div id="tip"><div class="t1" id="tipName">—</div><div class="t2" id="tipMeta">—</div></div>
+  </main>
+
+  <aside class="right">
+    <div class="card">
+      <div class="kpi">Selection</div>
+      <div style="font-size:16px; margin-top:6px;" id="selName">Nothing selected</div>
+      <div class="muted" id="selMeta">Hover and click a structure.</div>
+    </div>
+
+    <div class="card">
+      <div class="kpi">Brief info</div>
+      <div class="muted" id="overview">Click a part to read a brief paragraph.</div>
+
+      <div class="kpi" style="margin-top:12px;">Key points</div>
+      <div id="notes"><div class="muted">—</div></div>
+    </div>
+  </aside>
+</div>
+
+<script type="module">
+  import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+  import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+  // --- Minimal data (general summaries). Replace text with your own notes if needed. ---
+  const PARTS = [
+    { id:"skull", name:"Skull (Cranium)", kind:"BONE", group:"bones",
+      overview:"The skull protects the brain and forms the structure of the face. It also provides attachment points for muscles used in chewing and facial expression.",
+      notes:["Protects the brain","Houses sensory organs","Jaw movement involves the mandible"] },
+    { id:"clavicle", name:"Clavicle (Collarbone)", kind:"BONE", group:"bones",
+      overview:"The clavicle acts like a strut that stabilizes the shoulder and helps transmit forces from the arm to the trunk.",
+      notes:["Connects sternum to scapula","Keeps shoulder laterally placed","Common fracture site"] },
+    { id:"scapula", name:"Scapula (Shoulder Blade)", kind:"BONE", group:"bones",
+      overview:"The scapula is a mobile bone that forms the shoulder socket and provides broad surfaces for muscle attachment.",
+      notes:["Glenoid cavity forms shoulder joint","Moves to position the arm","Many muscle attachments"] },
+    { id:"sternum", name:"Sternum", kind:"BONE", group:"bones",
+      overview:"The sternum is the breastbone at the front of the chest. It supports the rib cage and protects organs in the thorax.",
+      notes:["Ribs attach via cartilage","Protects heart and lungs","Landmark for CPR"] },
+    { id:"ribs", name:"Rib Cage", kind:"BONE", group:"bones",
+      overview:"Ribs form a protective cage for the heart and lungs and help with breathing by expanding and contracting with the chest.",
+      notes:["Protects thoracic organs","Assists ventilation","Connected to spine posteriorly"] },
+    { id:"spine", name:"Vertebral Column", kind:"BONE", group:"bones",
+      overview:"The spine supports the body, protects the spinal cord, and allows flexible movement through multiple vertebrae.",
+      notes:["Supports head and trunk","Protects spinal cord","Shock absorption via discs"] },
+    { id:"humerus", name:"Humerus", kind:"BONE", group:"bones",
+      overview:"The humerus is the long bone of the upper arm, forming joints at the shoulder and elbow for wide range of motion.",
+      notes:["Shoulder + elbow joints","Many muscle attachments","Can fracture with falls"] },
+    { id:"radius", name:"Radius", kind:"BONE", group:"bones",
+      overview:"The radius is the lateral forearm bone (thumb side). It rotates around the ulna to enable pronation and supination.",
+      notes:["Thumb-side forearm","Key to wrist joint","Enables forearm rotation"] },
+    { id:"ulna", name:"Ulna", kind:"BONE", group:"bones",
+      overview:"The ulna is the medial forearm bone (pinky side). It forms the hinge part of the elbow with the humerus.",
+      notes:["Pinky-side forearm","Elbow hinge","Stabilizes forearm"] },
+    { id:"pelvis", name:"Pelvis", kind:"BONE", group:"bones",
+      overview:"The pelvis transfers body weight to the lower limbs and protects pelvic organs. It also forms the hip sockets.",
+      notes:["Hip socket (acetabulum)","Weight transfer to legs","Protects pelvic organs"] },
+    { id:"femur", name:"Femur", kind:"BONE", group:"bones",
+      overview:"The femur is the longest and strongest bone in the body, bearing weight and enabling powerful leg movement.",
+      notes:["Head fits hip socket","Major weight-bearing bone","Large muscle attachments"] },
+    { id:"tibia", name:"Tibia", kind:"BONE", group:"bones",
+      overview:"The tibia is the main weight-bearing bone of the lower leg, forming the knee and ankle joints.",
+      notes:["Primary lower-leg support","Forms knee with femur","Medial (inner) shin"] },
+    { id:"fibula", name:"Fibula", kind:"BONE", group:"bones",
+      overview:"The fibula is the slender lateral lower-leg bone. It stabilizes the ankle and provides muscle attachment.",
+      notes:["Lateral shin","Stabilizes ankle","Less weight-bearing than tibia"] },
+
+    { id:"deltoid", name:"Deltoid", kind:"MUSCLE", group:"muscles",
+      overview:"The deltoid covers the shoulder and lifts the arm away from the body. Different fibres assist with flexion and extension.",
+      notes:["Abducts the arm","Stabilizes shoulder","Anterior/posterior fibres vary action"] },
+    { id:"pectoralis", name:"Pectoralis Major", kind:"MUSCLE", group:"muscles",
+      overview:"A large chest muscle that moves the upper limb—bringing the arm across the body and rotating it inward.",
+      notes:["Adducts + internally rotates humerus","Powerful pushing muscle","Attaches to humerus"] },
+    { id:"biceps", name:"Biceps Brachii", kind:"MUSCLE", group:"muscles",
+      overview:"The biceps bends the elbow and helps rotate the forearm so the palm faces up. It also assists shoulder flexion.",
+      notes:["Elbow flexion","Forearm supination","Two heads at shoulder"] },
+    { id:"triceps", name:"Triceps Brachii", kind:"MUSCLE", group:"muscles",
+      overview:"The triceps straightens the elbow and is important in pushing movements and stabilizing the elbow joint.",
+      notes:["Elbow extension","Strong pushing muscle","Three heads"] },
+    { id:"abs", name:"Abdominal Wall", kind:"MUSCLE", group:"muscles",
+      overview:"The abdominal muscles support the trunk, assist breathing, and help flex and rotate the spine.",
+      notes:["Core stability","Trunk flexion/rotation","Aids forced exhalation"] },
+    { id:"glute", name:"Gluteal Muscles", kind:"MUSCLE", group:"muscles",
+      overview:"The gluteal group powers hip extension and helps stabilize the pelvis during walking and running.",
+      notes:["Hip extension + abduction","Pelvis stabilization","Key for locomotion"] },
+
+    { id:"heart", name:"Heart", kind:"ORGAN", group:"organs",
+      overview:"The heart pumps blood through the lungs and the rest of the body, delivering oxygen and nutrients and removing wastes.",
+      notes:["Four chambers","Pulmonary + systemic circulation","Rhythmic muscular pump"] },
+    { id:"lungs", name:"Lungs", kind:"ORGAN", group:"organs",
+      overview:"The lungs exchange oxygen and carbon dioxide with the blood. Breathing changes chest volume to move air in and out.",
+      notes:["Gas exchange in alveoli","Ventilation via diaphragm/ribs","Protected by rib cage"] },
+    { id:"liver", name:"Liver", kind:"ORGAN", group:"organs",
+      overview:"The liver processes nutrients, detoxifies many substances, produces bile for digestion, and makes important proteins.",
+      notes:["Metabolism + detox","Bile production","Protein synthesis"] },
+  ];
+
+  // --- DOM ---
+  const viewport = document.getElementById("viewport");
+  const tip = document.getElementById("tip");
+  const tipName = document.getElementById("tipName");
+  const tipMeta = document.getElementById("tipMeta");
+  const selName = document.getElementById("selName");
+  const selMeta = document.getElementById("selMeta");
+  const overviewEl = document.getElementById("overview");
+  const notesEl = document.getElementById("notes");
+  const partsList = document.getElementById("partsList");
+  const searchEl = document.getElementById("search");
+  const countPill = document.getElementById("countPill");
+
+  const bonesOpacity = document.getElementById("bonesOpacity");
+  const muscleOpacity = document.getElementById("muscleOpacity");
+  const organsOpacity = document.getElementById("organsOpacity");
+  const fitBtn = document.getElementById("fitBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const toggleLabelsBtn = document.getElementById("toggleLabelsBtn");
+
+  // --- Scene ---
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x070b10);
+
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 120);
+  camera.position.set(0.9, 1.15, 2.1);
+
+  const renderer = new THREE.WebGLRenderer({ antialias:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.domElement.style.touchAction = "none";
+  viewport.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.0);
+  key.position.set(2.2, 3.0, 1.5);
+  scene.add(key);
+
+  // Groups
+  const root = new THREE.Group();
+  scene.add(root);
+  const bonesGroup = new THREE.Group(); root.add(bonesGroup);
+  const musclesGroup = new THREE.Group(); root.add(musclesGroup);
+  const organsGroup = new THREE.Group(); root.add(organsGroup);
+
+  // Picking
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  const pickables = [];
+
+  // Hover/selection visuals
+  const hoverEmissive = new THREE.Color(0x61dafb);
+  let hovered = null;
+  let selected = null;
+  let tooltipsEnabled = true;
+
+  function resize(){
+    const w = viewport.clientWidth;
+    const h = viewport.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+
+  function setInfo(part){
+    if (!part){
+      selName.textContent = "Nothing selected";
+      selMeta.textContent = "Hover and click a structure.";
+      overviewEl.textContent = "Click a part to read a brief paragraph.";
+      notesEl.innerHTML = `<div class="muted">—</div>`;
+      return;
+    }
+    selName.textContent = part.name;
+    selMeta.textContent = `${part.kind} · ${part.group}`;
+    overviewEl.textContent = part.overview || "—";
+    const notes = part.notes || [];
+    if (!notes.length){ notesEl.innerHTML = `<div class="muted">—</div>`; return; }
+    const ul = document.createElement("ul");
+    notes.forEach(n => { const li=document.createElement("li"); li.textContent = n; ul.appendChild(li); });
+    notesEl.innerHTML = "";
+    notesEl.appendChild(ul);
+  }
+
+  function setTip(clientX, clientY, part){
+    if (!tooltipsEnabled || !part){ tip.style.display = "none"; return; }
+    const rect = viewport.getBoundingClientRect();
+    tip.style.left = (clientX - rect.left) + "px";
+    tip.style.top  = (clientY - rect.top) + "px";
+    tipName.textContent = part.name;
+    tipMeta.textContent = `${part.kind} · ${part.group}`;
+    tip.style.display = "block";
+  }
+
+  function clearHover(){
+    if (!hovered) return;
+    const m = hovered.material;
+    if (m && m.emissive) m.emissive.set(0x000000);
+    hovered = null;
+    tip.style.display = "none";
+  }
+  function applyHover(mesh){
+    if (!mesh || hovered === mesh) return;
+    clearHover();
+    hovered = mesh;
+    const m = hovered.material;
+    if (m && m.emissive) m.emissive.copy(hoverEmissive);
+  }
+
+  function clearSelected(){
+    if (!selected) return;
+    const m = selected.material;
+    if (m && m.emissive) m.emissive.set(0x000000);
+    selected = null;
+  }
+  function applySelected(mesh){
+    clearSelected();
+    selected = mesh;
+    const m = selected.material;
+    if (m && m.emissive) m.emissive.copy(hoverEmissive);
+  }
+
+  // --- Build a simple "human" from primitives (GitHub Pages safe) ---
+  const mats = {
+    bone: new THREE.MeshStandardMaterial({ color: 0xe7eef9, roughness:0.85, metalness:0.0, emissive:0x000000, transparent:true, opacity:1 }),
+    muscle: new THREE.MeshStandardMaterial({ color: 0xb84a4a, roughness:0.85, metalness:0.0, emissive:0x000000, transparent:true, opacity:0.35 }),
+    organ: new THREE.MeshStandardMaterial({ color: 0x6bd6a6, roughness:0.85, metalness:0.0, emissive:0x000000, transparent:true, opacity:0.35 }),
+  };
+
+  function attachPart(mesh, partId){
+    const part = PARTS.find(p => p.id === partId);
+    mesh.userData.partId = partId;
+    mesh.userData.part = part;
+    pickables.push(mesh);
+    return mesh;
+  }
+
+  function capsule(r=0.08, h=0.5, seg=16){
+    return new THREE.CapsuleGeometry(r, h, seg, seg);
+  }
+
+  // Bones (stylised)
+  const skull = attachPart(new THREE.Mesh(new THREE.SphereGeometry(0.16, 24, 24), mats.bone.clone()), "skull");
+  skull.position.set(0, 1.25, 0);
+  bonesGroup.add(skull);
+
+  const spine = attachPart(new THREE.Mesh(capsule(0.055, 0.55), mats.bone.clone()), "spine");
+  spine.position.set(0, 0.78, 0.02);
+  bonesGroup.add(spine);
+
+  const sternum = attachPart(new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.22, 0.05), mats.bone.clone()), "sternum");
+  sternum.position.set(0, 0.86, 0.13);
+  bonesGroup.add(sternum);
+
+  const ribs = attachPart(new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.03, 16, 48), mats.bone.clone()), "ribs");
+  ribs.rotation.x = Math.PI/2;
+  ribs.position.set(0, 0.86, 0.06);
+  bonesGroup.add(ribs);
+
+  const clavL = attachPart(new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.18, 16), mats.bone.clone()), "clavicle");
+  clavL.rotation.z = Math.PI/6;
+  clavL.position.set(-0.14, 0.98, 0.10);
+  bonesGroup.add(clavL);
+  const clavR = attachPart(clavL.clone(), "clavicle");
+  clavR.position.x = 0.14; clavR.rotation.z = -Math.PI/6;
+  bonesGroup.add(clavR);
+
+  const scapL = attachPart(new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.10, 0.03), mats.bone.clone()), "scapula");
+  scapL.position.set(-0.19, 0.92, -0.02);
+  bonesGroup.add(scapL);
+  const scapR = attachPart(scapL.clone(), "scapula");
+  scapR.position.x = 0.19;
+  bonesGroup.add(scapR);
+
+  const humL = attachPart(new THREE.Mesh(capsule(0.035, 0.33), mats.bone.clone()), "humerus");
+  humL.position.set(-0.31, 0.78, 0.02);
+  humL.rotation.z = Math.PI/14;
+  bonesGroup.add(humL);
+  const humR = attachPart(humL.clone(), "humerus");
+  humR.position.x = 0.31; humR.rotation.z = -Math.PI/14;
+  bonesGroup.add(humR);
+
+  const radL = attachPart(new THREE.Mesh(capsule(0.025, 0.28), mats.bone.clone()), "radius");
+  radL.position.set(-0.41, 0.56, 0.05);
+  radL.rotation.z = Math.PI/18;
+  bonesGroup.add(radL);
+  const radR = attachPart(radL.clone(), "radius");
+  radR.position.x = 0.41; radR.rotation.z = -Math.PI/18;
+  bonesGroup.add(radR);
+
+  const ulnL = attachPart(new THREE.Mesh(capsule(0.025, 0.28), mats.bone.clone()), "ulna");
+  ulnL.position.set(-0.39, 0.56, -0.02);
+  ulnL.rotation.z = Math.PI/18;
+  bonesGroup.add(ulnL);
+  const ulnR = attachPart(ulnL.clone(), "ulna");
+  ulnR.position.x = 0.39; ulnR.rotation.z = -Math.PI/18;
+  bonesGroup.add(ulnR);
+
+  const pelvis = attachPart(new THREE.Mesh(new THREE.TorusGeometry(0.20, 0.05, 18, 48), mats.bone.clone()), "pelvis");
+  pelvis.rotation.x = Math.PI/2;
+  pelvis.position.set(0, 0.46, 0.03);
+  bonesGroup.add(pelvis);
+
+  const femL = attachPart(new THREE.Mesh(capsule(0.045, 0.48), mats.bone.clone()), "femur");
+  femL.position.set(-0.11, 0.14, 0.02);
+  bonesGroup.add(femL);
+  const femR = attachPart(femL.clone(), "femur");
+  femR.position.x = 0.11;
+  bonesGroup.add(femR);
+
+  const tibL = attachPart(new THREE.Mesh(capsule(0.035, 0.42), mats.bone.clone()), "tibia");
+  tibL.position.set(-0.11, -0.22, 0.02);
+  bonesGroup.add(tibL);
+  const tibR = attachPart(tibL.clone(), "tibia");
+  tibR.position.x = 0.11;
+  bonesGroup.add(tibR);
+
+  const fibL = attachPart(new THREE.Mesh(capsule(0.025, 0.40), mats.bone.clone()), "fibula");
+  fibL.position.set(-0.16, -0.24, -0.02);
+  bonesGroup.add(fibL);
+  const fibR = attachPart(fibL.clone(), "fibula");
+  fibR.position.x = 0.16;
+  bonesGroup.add(fibR);
+
+  // Muscles (simple volumes)
+  const deltoidL = attachPart(new THREE.Mesh(new THREE.SphereGeometry(0.10, 22, 22), mats.muscle.clone()), "deltoid");
+  deltoidL.position.set(-0.26, 0.88, 0.02);
+  musclesGroup.add(deltoidL);
+  const deltoidR = attachPart(deltoidL.clone(), "deltoid");
+  deltoidR.position.x = 0.26;
+  musclesGroup.add(deltoidR);
+
+  const pec = attachPart(new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.22, 0.20), mats.muscle.clone()), "pectoralis");
+  pec.position.set(0, 0.86, 0.12);
+  musclesGroup.add(pec);
+
+  const bicepsL = attachPart(new THREE.Mesh(capsule(0.06, 0.18), mats.muscle.clone()), "biceps");
+  bicepsL.position.set(-0.33, 0.70, 0.08);
+  bicepsL.rotation.z = Math.PI/12;
+  musclesGroup.add(bicepsL);
+  const bicepsR = attachPart(bicepsL.clone(), "biceps");
+  bicepsR.position.x = 0.33; bicepsR.rotation.z = -Math.PI/12;
+  musclesGroup.add(bicepsR);
+
+  const tricepsL = attachPart(new THREE.Mesh(capsule(0.055, 0.18), mats.muscle.clone()), "triceps");
+  tricepsL.position.set(-0.33, 0.70, -0.05);
+  tricepsL.rotation.z = Math.PI/12;
+  musclesGroup.add(tricepsL);
+  const tricepsR = attachPart(tricepsL.clone(), "triceps");
+  tricepsR.position.x = 0.33; tricepsR.rotation.z = -Math.PI/12;
+  musclesGroup.add(tricepsR);
+
+  const abs = attachPart(new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.28, 0.16), mats.muscle.clone()), "abs");
+  abs.position.set(0, 0.62, 0.10);
+  musclesGroup.add(abs);
+
+  const glute = attachPart(new THREE.Mesh(new THREE.SphereGeometry(0.14, 22, 22), mats.muscle.clone()), "glute");
+  glute.position.set(0, 0.38, -0.06);
+  musclesGroup.add(glute);
+
+  // Organs
+  const heart = attachPart(new THREE.Mesh(new THREE.SphereGeometry(0.10, 24, 24), mats.organ.clone()), "heart");
+  heart.position.set(-0.06, 0.86, 0.08);
+  organsGroup.add(heart);
+
+  const lungs = attachPart(new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.22, 0.18), mats.organ.clone()), "lungs");
+  lungs.position.set(0, 0.88, 0.05);
+  organsGroup.add(lungs);
+
+  const liver = attachPart(new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.12, 0.14), mats.organ.clone()), "liver");
+  liver.position.set(0.08, 0.70, 0.08);
+  organsGroup.add(liver);
+
+  // Pose
+  root.rotation.y = -0.55;
+  root.position.y = 0.1;
+
+  // --- UI wiring ---
+  function applyOpacities(){
+    bonesGroup.traverse(o => { if (o.isMesh){ o.material.opacity = parseFloat(bonesOpacity.value); o.material.transparent = o.material.opacity < 1; }});
+    musclesGroup.traverse(o => { if (o.isMesh){ o.material.opacity = parseFloat(muscleOpacity.value); o.material.transparent = true; }});
+    organsGroup.traverse(o => { if (o.isMesh){ o.material.opacity = parseFloat(organsOpacity.value); o.material.transparent = true; }});
+  }
+  bonesOpacity.addEventListener("input", applyOpacities);
+  muscleOpacity.addEventListener("input", applyOpacities);
+  organsOpacity.addEventListener("input", applyOpacities);
+
+  function fitView(){
+    const box = new THREE.Box3().setFromObject(root);
+    const size = new THREE.Vector3(); box.getSize(size);
+    const center = new THREE.Vector3(); box.getCenter(center);
+    controls.target.copy(center);
+
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const fov = camera.fov * (Math.PI/180);
+    const dist = (maxDim / 2) / Math.tan(fov / 2);
+
+    camera.position.set(center.x + dist*0.65, center.y + dist*0.75, center.z + dist*1.25);
+    camera.near = Math.max(0.01, dist/100);
+    camera.far = dist*10;
+    camera.updateProjectionMatrix();
+    controls.update();
+  }
+
+  function resetView(){
+    root.rotation.set(0, -0.55, 0);
+    root.position.set(0, 0.1, 0);
+    controls.reset();
+    fitView();
+    setInfo(null);
+    clearHover();
+    clearSelected();
+  }
+
+  fitBtn.addEventListener("click", fitView);
+  resetBtn.addEventListener("click", resetView);
+
+  toggleLabelsBtn.addEventListener("click", () => {
+    tooltipsEnabled = !tooltipsEnabled;
+    toggleLabelsBtn.textContent = tooltipsEnabled ? "Tooltips: On" : "Tooltips: Off";
+    if (!tooltipsEnabled) tip.style.display = "none";
+  });
+
+  function renderParts(){
+    const q = (searchEl.value || "").trim().toLowerCase();
+    const filtered = PARTS.filter(p => !q || p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q) || p.kind.toLowerCase().includes(q));
+    countPill.textContent = `${filtered.length} parts`;
+    partsList.innerHTML = "";
+    filtered.forEach(p => {
+      const row = document.createElement("div");
+      row.className = "partRow";
+      row.innerHTML = `
+        <div style="flex:1">
+          <div style="font-size:13px; opacity:.95">${p.name}</div>
+          <div class="muted" style="margin-top:2px">${p.kind}</div>
+        </div>
+        <div class="badge">${p.id}</div>
+      `;
+      row.addEventListener("click", () => {
+        const mesh = pickables.find(m => m.userData?.partId === p.id);
+        if (mesh){ applySelected(mesh); }
+        setInfo(p);
+      });
+      partsList.appendChild(row);
+    });
+  }
+  searchEl.addEventListener("input", renderParts);
+
+  function hitTest(clientX, clientY){
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(pickables, false);
+    return hits.length ? hits[0].object : null;
+  }
+
+  renderer.domElement.addEventListener("pointermove", (e) => {
+    const obj = hitTest(e.clientX, e.clientY);
+    if (!obj){ clearHover(); return; }
+    applyHover(obj);
+    setTip(e.clientX, e.clientY, obj.userData.part);
+  });
+  renderer.domElement.addEventListener("pointerleave", () => { clearHover(); });
+  renderer.domElement.addEventListener("pointerdown", (e) => {
+    const obj = hitTest(e.clientX, e.clientY);
+    if (!obj) return;
+    applySelected(obj);
+    setInfo(obj.userData.part);
+  });
+
+  // Start
+  applyOpacities();
+  renderParts();
+  setInfo(null);
+  resize();
+  fitView();
+
+  function animate(){
+    controls.update();
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+</body>
+</html>
