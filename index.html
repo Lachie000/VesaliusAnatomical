@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -30,123 +29,213 @@
       <section class="card">
         <h2>Project aim</h2>
         <p class="muted">Explain what makes Vesalius’ drawings special: how they were made, what they changed, and how they compare to modern anatomy.</p>
+        <div class="chips"></div>
       </section>
 
-```
-  <section class="card">
-    <h2>Quick timeline</h2>
-    <ol class="timeline">
-      <li><b>1514</b> - Vesalius born (Brussels)</li>
-      <li><b>1537</b> - Professor of anatomy (Padua)</li>
-      <li><b>1543</b> - <i>De humani corporis fabrica</i> published</li>
-      <li><b>1564</b> - Vesalius dies (Zakynthos)</li>
-    </ol>
-    <p class="muted" style="margin-top:10px;">Like a mini digital museum: click plates and read annotations.</p>
-  </section>
+      <section class="card">
+        <h2>Quick timeline</h2>
+        <ol class="timeline">
+          <li><b>1514</b> - Vesalius born (Brussels)</li>
+          <li><b>1537</b> - Professor of anatomy (Padua)</li>
+          <li><b>1543</b> - <i>De humani corporis fabrica</i> published</li>
+          <li><b>1564</b> - Vesalius dies (Zakynthos)</li>
+        </ol>
+        <p class="muted" style="margin-top:10px;">like a mini digital museum: click plates and read annotations.</p>
+      </section>
 
-  <section class="card">
-    <h2>How to use</h2>
-    <ul class="bullets">
-      <li>Open images in the gallery</li>
-      <li>Read the notes beside the image</li>
-    </ul>
-  </section>
-</aside>
+      <section class="card">
+        <h2>How to use</h2>
+        <ul class="bullets">
+          <li>Open images in the gallery</li>
+          <li>Read the annotation notes</li>
+          <li>Copy key points into your assignment</li>
+        </ul>
+      </section>
+    </aside>
 
-<section class="content">
-  <section class="hero card">
-    <div>
-      <h1>Vesalius changed how people understood the human body.</h1>
-      <p class="muted">Instead of repeating old texts, he relied on direct observation through dissection. His illustrations helped spread that evidence to anyone who could read (and <i>see</i>) the anatomy.</p>
-      <div class="actions">
-        <a class="btn primary" href="#gallery">Explore the drawings</a>
-        <a class="btn" href="#analysis">Jump to analysis</a>
-      </div>
-    </div>
-    <figure class="heroArt">
-      <img src="assets/img/fabrica_title.jpg" loading="lazy" />
-      <figcaption class="caption">Title page (1543). Anatomy shown as public demonstration.</figcaption>
-    </figure>
-  </section>
-
-  <section id="gallery" class="card">
-    <div class="rowBetween">
-      <h2>Gallery (click a plate)</h2>
-      <div class="muted">Open a plate and read the annotations</div>
-    </div>
-
-    <div class="gallery">
-      <button class="plate" data-plate="intestines">
-        <img src="assets/img/vesalius_intestines.jpg" loading="lazy" />
-        <div class="plateMeta">
-          <div class="plateTitle">Torso & intestines</div>
-          <div class="plateSub">Organ layout + teaching clarity</div>
+    <section class="content">
+      <section class="hero card">
+        <div>
+          <h1>Vesalius changed how people understood the human body.</h1>
+          <p class="muted">Instead of repeating old texts, he relied on direct observation through dissection. His illustrations helped spread that evidence to anyone who could read (and <i>see</i>) the anatomy.</p>
+          <div class="actions">
+            <a class="btn primary" href="#gallery">Explore the drawings</a>
+            <a class="btn" href="#analysis">Jump to analysis</a>
+          </div>
         </div>
-      </button>
+        <figure class="heroArt" aria-label="Vesalius Fabrica title page">
+          <img src="assets/img/fabrica_title.jpg" alt="Title page from De humani corporis fabrica (1543)" loading="lazy" />
+          <figcaption class="caption">Title page (1543). The crowded scene shows anatomy as public demonstration.</figcaption>
+        </figure>
+      </section>
 
-      <button class="plate" data-plate="vessels">
-        <img src="assets/img/vesalius_vessels.jpg" loading="lazy" />
-        <div class="plateMeta">
-          <div class="plateTitle">Veins & arteries</div>
-          <div class="plateSub">Circulation understanding</div>
+      <section id="about" class="card">
+        <h2>About Vesalius</h2>
+        <div class="cols">
+          <div>
+            <p>Andreas Vesalius (1514–1564) was a Renaissance anatomist best known for <i>De humani corporis fabrica</i> (1543). The book’s drawings are famous because they combine careful dissection with artistic composition, making complex structures easier to study.</p>
+            <p class="muted">Key idea: Vesalius argued that anatomy should be learned from the body itself, not only from ancient authorities.</p>
+          </div>
+          <div class="callout">
+            <h3>Why drawings mattered</h3>
+            <ul class="bullets">
+              <li>Books travel,cadavers don’t.</li>
+              <li>Clear images standardise what students should look for.</li>
+              <li>Printmaking made anatomy “shareable science”.</li>
+            </ul>
+          </div>
         </div>
-      </button>
+      </section>
 
-      <button class="plate" data-plate="skeleton">
-        <img src="assets/img/vesalius_skeleton.jpg" loading="lazy" />
-        <div class="plateMeta">
-          <div class="plateTitle">Skeleton</div>
-          <div class="plateSub">Accuracy + storytelling</div>
+      <section id="gallery" class="card">
+        <div class="rowBetween">
+          <h2>Gallery (click a plate)</h2>
+          <div class="muted">Tip: open one plate and read the notes</div>
         </div>
-      </button>
-    </div>
-  </section>
 
-  <footer class="footer">
-    <div class="muted">Made by Lachie · Vesalius digital gallery</div>
-  </footer>
-</section>
-```
+        <div class="gallery">
+          <button class="plate" data-plate="intestines" type="button">
+            <img src="assets/img/vesalius_intestines.jpg" alt="Torso plate showing intestines (Vesalius)" loading="lazy" />
+            <div class="plateMeta">
+              <div class="plateTitle">Torso & intestines</div>
+              <div class="plateSub">Organ layout + teaching clarity</div>
+            </div>
+          </button>
 
+          <button class="plate" data-plate="vessels" type="button">
+            <img src="assets/img/vesalius_vessels.jpg" alt="Figure showing veins and arteries (Vesalius)" loading="lazy" />
+            <div class="plateMeta">
+              <div class="plateTitle">Veins & arteries</div>
+              <div class="plateSub">Circulation understanding.</div>
+            </div>
+          </button>
+
+          <button class="plate" data-plate="skeleton" type="button">
+            <img src="assets/img/vesalius_skeleton.jpg" alt="Skeleton contemplating a skull (Vesalius)" loading="lazy" />
+            <div class="plateMeta">
+              <div class="plateTitle">Skeleton “memento mori”</div>
+              <div class="plateSub">Accuracy + Renaissance storytelling</div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <section id="analysis" class="card">
+        <h2>Analysis</h2>
+
+        <div class="grid2">
+          <div class="panel">
+            <h3>1) Art + science</h3>
+            <p>Vesalius’ plates are scientific, but they’re also staged: bodies pose like statues, landscapes add depth, and lighting makes muscles readable. This style kept students engaged and made the anatomy memorable.</p>
+            <ul class="bullets">
+              <li>Composition directs the eye to key structures</li>
+              <li>Shading separates layers (skin → muscle → organs)</li>
+              <li>Figures look “alive”, so the anatomy feels real</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3>2) Printing & technology</h3>
+            <p>The drawings were turned into detailed woodcuts. That mattered because woodcuts could be printed repeatedly with text, spreading a consistent “reference anatomy” across Europe.</p>
+            <ul class="bullets">
+              <li>Standardised images across many copies</li>
+              <li>Enabled study without a live dissection</li>
+              <li>Helped formalise anatomy education</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h3>3) Accuracy vs modern anatomy</h3>
+            <p>Vesalius improved accuracy by dissecting humans, but some details still reflect the limits of the time (tools, preservation, and earlier beliefs). Use the plate annotations to list specific “right” and “wrong” examples.</p>
+            <div class="compare">
+              <div class="compareBox">
+                <div class="muted">Modern-style simplified reference</div>
+                <img src="assets/img/modern_skeleton.svg" alt="Simple modern skeleton diagram" />
+              </div>
+              <div class="compareBox">
+                <div class="muted">Vesalius plate example</div>
+                <img src="assets/img/vesalius_skeleton.jpg" alt="Vesalius skeleton plate" />
+              </div>
+            </div>
+            <p class="muted">Both show the same main bone groups, but Vesalius adds artistic pose and environment, while modern diagrams reduce detail to improve clarity.</p>
+          </div>
+
+          <div class="panel">
+            <h3>4) Ethics & context</h3>
+            <p>Dissection in the 1500s often relied on executed criminals and was shaped by religious, legal, and social rules.</p>
+            <ul class="bullets">
+              <li>Access to bodies was limited and controversial</li>
+              <li>Teaching dissections were public events</li>
+              <li>Medical knowledge grew within cultural constraints</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="legacy" class="card">
+        <h2>Legacy</h2>
+        <div class="cols">
+          <div>
+            <p>Vesalius helped shift medicine toward evidence-based observation. His work influenced anatomy teaching, medical illustration, and later breakthroughs in physiology.</p>
+            <ul class="bullets">
+              <li>Made anatomy a hands on discipline</li>
+              <li>Set a new standard for scientific illustration</li>
+              <li>Inspired later researchers to test ideas with evidence</li>
+            </ul>
+          </div>
+          <div class="callout">
+            <h3></h3>
+            <p class="quote">“Vesalius’ anatomical drawings combined direct dissection with print technology, replacing inherited ideas with visual evidence and transforming how anatomy was learned.”</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="sources" class="card">
+        <h2>Sources & image credits</h2>
+        <ul class="sources">
+          <li><b>Images:</b> Wikimedia Commons / Wellcome Collection scans (see file names in <code>assets/img</code>).</li>
+          <li><b>Book:</b> <i>De humani corporis fabrica</i> (1543).</li>
+        </ul>
+      </section>
+
+      <footer class="footer">
+        <div class="muted">Made by Lachie, Indie School · Vesalius digital gallery</div>
+      </footer>
+    </section>
   </main>
 
-  <!-- MODAL -->
-
+  <!-- Modal viewer -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="modalBack" data-close="1"></div>
+    <div class="modalCard" role="dialog" aria-modal="true" aria-label="Plate viewer">
+      <div class="modalHead">
+        <div>
+          <div class="modalTitle" id="mTitle">—</div>
+          <div class="muted" id="mSub">—</div>
+        </div>
+        <button class="iconBtn" data-close="1" aria-label="Close">✕</button>
+      </div>
 
-```
-<div class="modalCard">
-  <div class="modalHead">
-    <div>
-      <div class="modalTitle" id="mTitle">—</div>
-      <div class="muted" id="mSub">—</div>
+      <div class="viewer">
+        <div class="imgWrap" id="imgWrap">
+          <img id="mImg" alt="Selected Vesalius plate" />
+          <!-- dots removed -->
+        </div>
+
+        <div class="notes">
+          <h3>Annotations</h3>
+          <div class="muted">Read while viewing the plate.</div>
+          <div id="noteList" class="noteList"></div>
+        </div>
+      </div>
+
+      <div class="modalFoot">
+        <div class="muted" id="mCredit">—</div>
+        <button class="btn" data-close="1">Done</button>
+      </div>
     </div>
-    <button class="iconBtn" data-close="1">✕</button>
-  </div>
-
-  <div class="viewer">
-    <div class="imgWrap">
-      <img id="mImg" alt="Selected Vesalius plate" />
-    </div>
-
-    <div class="notes">
-      <h3>Annotations</h3>
-      <div class="muted">Read while viewing the plate.</div>
-      <div id="noteList" class="noteList"></div>
-    </div>
-  </div>
-
-  <div class="modalFoot">
-    <div class="muted" id="mCredit">—</div>
-    <button class="btn" data-close="1">Done</button>
-  </div>
-</div>
-```
-
   </div>
 
   <script src="assets/js/app.js"></script>
-
 </body>
 </html>
