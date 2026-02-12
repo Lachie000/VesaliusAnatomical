@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vesalius 3D Atlas — MEGA</title>
+  <style>
+    :root{
+      --bg:#070b10; --text:#e7eef9; --muted:#9fb2cf;
+      --border:rgba(255,255,255,.10);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --acc: rgba(97,218,251,.95);
+      --acc2: rgba(167,139,250,.95);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; font-family:var(--sans); color:var(--text);
+      background:radial-gradient(1200px 900px at 20% 0%, rgba(97,218,251,.08), transparent 45%),
+              radial-gradient(1200px 900px at 90% 10%, rgba(167,139,250,.08), transparent 45%),
+              var(--bg);
+    }
+    #app{ display:grid; grid-template-columns: 380px 1fr 460px; height:100vh; }
+    .side,.right{
+      padding:14px; overflow:auto;
+      background: linear-gradient(180deg, rgba(14,22,34,.92), rgba(7,11,16,.78));
+      backdrop-filter: blur(10px);
+    }
+    .side{ border-right:1px solid var(--border); }
+    .right{ border-left:1px solid var(--border); }
+    .card{
+      border:1px solid var(--border);
+      background: rgba(12,18,32,.62);
+      border-radius: var(--radius);
+      padding:12px;
+      margin-bottom:12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+    h1{ font-size:14px; margin:0 0 8px; letter-spacing:.2px; }
+    .muted{ color:var(--muted); font-size:12px; line-height:1.45; }
+    .pill{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.25);
+      color:var(--muted); font-size:12px; font-family:var(--mono);
+      margin-right:6px; margin-bottom:6px;
+    }
+    .row{ display:flex; gap:10px; align-items:center; }
+    .grow{ flex:1; }
+    label{ font-size:12px; color:var(--muted); display:block; margin:10px 0 6px; }
+    select, input[type="text"]{
+      width:100%; padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(8,12,20,.75);
+      color:var(--text); outline:none;
+    }
+    input[type="range"]{ width:100%; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(8,12,20,.55);
+      color:var(--text); cursor:pointer; user-select:none;
+      transition: transform .06s ease, border-color .18s ease, background .18s ease;
+    }
+    .btn:hover{ border-color: rgba(255,255,255,.16); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{
+      border-color: rgba(97,218,251,.35);
+      background: linear-gradient(135deg, rgba(97,218,251,.16), rgba(167,139,250,.12));
+    }
+    .btn.danger{
+      border-color: rgba(248,113,113,.35);
+      background: linear-gradient(135deg, rgba(248,113,113,.16), rgba(0,0,0,.08));
+    }
+    .kpi{ font-family:var(--mono); font-size:12px; color:var(--muted); }
+    .big{ font-size:14px; margin-top:6px; }
+
+    #viewport{ position:relative; overflow:hidden; }
+    canvas{ display:block; width:100%; height:100%; }
+
+    /* Tooltip */
+    #tip{
+      position:absolute; z-index:10; pointer-events:none;
+      transform: translate(12px, 12px);
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,12,20,.86);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      display:none;
+      max-width: 320px;
+    }
+    #tip .t1{ font-size:12px; color: var(--text); opacity:.95; }
+    #tip .t2{ font-size:11px; color: var(--muted); margin-top:2px; font-family: var(--mono); }
+
+    /* Trace panel */
+    .hudPanel{
+      position:absolute; right:12px; bottom:12px; z-index:6;
+      width:min(560px, 92%);
+      border:1px solid var(--border);
+      background: rgba(8,12,20,.86);
+      border-radius: 16px;
+      padding:12px;
+      display:none;
+      box-shadow: 0 20px 48px rgba(0,0,0,.35);
+    }
+    .hudPanel.open{ display:block; }
+    textarea{
+      width:100%; height:140px; resize:vertical;
+      border-radius: 12px; border:1px solid var(--border);
+      background: rgba(0,0,0,.25); color:var(--text);
+      padding:10px; font-family: var(--mono); font-size:12px;
+      outline:none;
+    }
+
+    .partRow{
+      display:flex; gap:10px; align-items:center;
+      padding:10px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background: rgba(0,0,0,.18);
+      cursor:pointer;
+      transition: border-color .15s ease, background .15s ease;
+      margin-bottom:8px;
+    }
+    .partRow:hover{ border-color: rgba(97,218,251,.22); background: rgba(97,218,251,.06); }
+    .badge{
+      font-family:var(--mono); font-size:11px; color:var(--muted);
+      border:1px solid rgba(255,255,255,.10);
+      padding:4px 8px; border-radius:999px;
+      background: rgba(0,0,0,.22);
+      white-space:nowrap;
+    }
+    .star{ font-size:16px; opacity:.9; }
+    .star.on{ color: rgba(250,204,21,.95); }
+    .star.off{ color: rgba(148,163,184,.65); }
+    .thumb{
+      width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.08);
+      display:block;
+    }
+
+    @media (max-width: 1200px){
+      #app{ grid-template-columns: 1fr; grid-template-rows:auto 1fr auto; }
+      .side{ border-right:none; border-bottom:1px solid var(--border); }
+      .right{ border-left:none; border-top:1px solid var(--border); }
+      #viewport{ height: 58vh; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside class="side">
+      <div class="card">
+        <h1 id="title">Vesalius 3D Atlas — MEGA</h1>
+        <p class="muted">
+          Hover to get a glow + tooltip. Click to pin details. Study Mode quizzes you.
+          <br><br>
+          <span class="pill">Trace Mode</span> lets you redraw accurate hit areas and paste them into <span class="pill">vesalius.json</span>.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Controls</div>
+        <div class="big">
+          <div class="pill">Drag: rotate</div>
+          <div class="pill">Wheel: zoom</div>
+          <div class="pill">Right-drag: pan</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <label for="layerSelect">Active plate</label>
+        <select id="layerSelect"></select>
+
+        <label for="search">Search parts</label>
+        <input id="search" type="text" placeholder="e.g. femur, heart, deltoid…" />
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn primary grow" id="studyBtn">Study Mode: Off</button>
+          <button class="btn" id="shuffleBtn" title="Random part">Random</button>
+        </div>
+
+        <label for="opacity">Active plate opacity</label>
+        <input id="opacity" type="range" min="0.10" max="1.00" step="0.01" value="1.00" />
+
+        <label for="explode">Plate spacing (“book depth”)</label>
+        <input id="explode" type="range" min="0.00" max="0.55" step="0.005" value="0.22" />
+
+        <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+          <button class="btn primary" id="fitBtn">Fit view</button>
+          <button class="btn" id="toggleRegionsBtn">Show regions</button>
+          <button class="btn" id="traceBtn">Trace mode: Off</button>
+        </div>
+
+        <p class="muted" style="margin:10px 0 0;">
+          Trace: click points → <span class="pill">Enter</span> finish → copy JSON.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Plate preview</div>
+        <img id="thumb" class="thumb" alt="Plate thumbnail" />
+        <div class="muted" style="margin-top:8px">
+          Parts (current plate): <span class="pill" id="countPill">—</span>
+          Bookmarks: <span class="pill" id="bmCountPill">—</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Parts on this plate</div>
+        <div id="partsList"></div>
+      </div>
+    </aside>
+
+    <main id="viewport" aria-label="3D viewport">
+      <div id="tip"><div class="t1" id="tipName">—</div><div class="t2" id="tipMeta">—</div></div>
+      <div class="hudPanel" id="tracePanel">
+        <div class="kpi">Trace output</div>
+        <div class="muted" style="margin:6px 0 10px;">
+          Paste into the region’s <span class="pill">polygon</span> in <span class="pill">assets/data/vesalius.json</span>.
+        </div>
+        <textarea id="traceOut" readonly></textarea>
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+          <button class="btn primary" id="copyBtn">Copy</button>
+          <button class="btn" id="clearTraceBtn">Clear points</button>
+          <button class="btn" id="closeTracePanelBtn">Close</button>
+        </div>
+      </div>
+    </main>
+
+    <aside class="right">
+      <div class="card">
+        <div class="kpi">Selection</div>
+        <div class="big" id="selName">Nothing selected</div>
+        <div class="muted" id="selMeta">Hover to preview. Click to select.</div>
+
+        <div class="row" style="margin-top:10px; flex-wrap:wrap;">
+          <button class="btn" id="bookmarkBtn">☆ Bookmark</button>
+          <button class="btn danger" id="clearBookmarksBtn">Clear bookmarks</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="kpi">Overview</div>
+        <div class="muted" id="overview">Select a part to see brief information.</div>
+
+        <div class="kpi" style="margin-top:12px;">Notes</div>
+        <div id="notes"><div class="muted">—</div></div>
+
+        <div class="kpi" style="margin-top:12px;">Attribution</div>
+        <div class="muted">Use public-domain plates (e.g., NLM Historical Anatomies). No copyrighted book text included.</div>
+      </div>
+    </aside>
+  </div>
+
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+    // DOM
+    const viewport = document.getElementById("viewport");
+    const titleEl = document.getElementById("title");
+    const layerSelect = document.getElementById("layerSelect");
+    const opacityEl = document.getElementById("opacity");
+    const explodeEl = document.getElementById("explode");
+    const fitBtn = document.getElementById("fitBtn");
+    const toggleRegionsBtn = document.getElementById("toggleRegionsBtn");
+    const traceBtn = document.getElementById("traceBtn");
+    const searchEl = document.getElementById("search");
+    const studyBtn = document.getElementById("studyBtn");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const partsList = document.getElementById("partsList");
+    const thumbEl = document.getElementById("thumb");
+    const countPill = document.getElementById("countPill");
+    const bmCountPill = document.getElementById("bmCountPill");
+
+    const selName = document.getElementById("selName");
+    const selMeta = document.getElementById("selMeta");
+    const overviewEl = document.getElementById("overview");
+    const notesEl = document.getElementById("notes");
+    const bookmarkBtn = document.getElementById("bookmarkBtn");
+    const clearBookmarksBtn = document.getElementById("clearBookmarksBtn");
+
+    const tracePanel = document.getElementById("tracePanel");
+    const traceOut = document.getElementById("traceOut");
+    const copyBtn = document.getElementById("copyBtn");
+    const clearTraceBtn = document.getElementById("clearTraceBtn");
+    const closeTracePanelBtn = document.getElementById("closeTracePanelBtn");
+
+    const tip = document.getElementById("tip");
+    const tipName = document.getElementById("tipName");
+    const tipMeta = document.getElementById("tipMeta");
+
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x070b10);
+
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 120);
+    camera.position.set(0, 0, 1.75);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    viewport.appendChild(renderer.domElement);
+
+    // Lights
+    const key = new THREE.DirectionalLight(0xffffff, 1.0);
+    key.position.set(1.2, 1.1, 1.6);
+    scene.add(key);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+
+    const layersGroup = new THREE.Group();
+    scene.add(layersGroup);
+
+    // Picking
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const pickables = [];
+
+    // Trace state
+    let traceMode = false;
+    let tracePoints = [];
+    let tracePreviewLine = null;
+
+    // Data
+    let DATA = null;
+    let layerMeshes = []; // {layer, planeMesh, regionMeshes}
+    let activeLayerId = null;
+    let showRegionHighlight = false;
+
+    // Hover state
+    let hovered = null; // mesh
+    const hoverColor = new THREE.Color(0x61dafb);
+    const baseColor = new THREE.Color(0x000000);
+
+    // Study mode + bookmarks
+    let studyMode = false;
+    let studyTarget = null;
+    let bookmarks = new Set(loadBookmarks());
+
+    function resize(){
+      const w = viewport.clientWidth;
+      const h = viewport.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    function saveBookmarks(){
+      localStorage.setItem("vesalius_bookmarks", JSON.stringify([...bookmarks]));
+      bmCountPill.textContent = String(bookmarks.size);
+    }
+    function loadBookmarks(){
+      try{
+        const raw = localStorage.getItem("vesalius_bookmarks");
+        if (!raw) return [];
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch { return []; }
+    }
+
+    function clearSceneLayers(){
+      pickables.length = 0;
+      layerMeshes.forEach(L => {
+        layersGroup.remove(L.planeMesh);
+        L.regionMeshes.forEach(rm => layersGroup.remove(rm));
+        L.planeMesh.geometry.dispose();
+        L.planeMesh.material.map?.dispose?.();
+        L.planeMesh.material.dispose();
+        L.regionMeshes.forEach(rm => {
+          rm.geometry.dispose();
+          rm.material.dispose();
+        });
+      });
+      layerMeshes = [];
+      if (tracePreviewLine) {
+        layersGroup.remove(tracePreviewLine);
+        tracePreviewLine.geometry.dispose();
+        tracePreviewLine.material.dispose();
+        tracePreviewLine = null;
+      }
+      hovered = null;
+      tip.style.display = "none";
+    }
+
+    async function loadData(){
+      const res = await fetch("assets/data/vesalius.json", { cache: "no-cache" });
+      if (!res.ok) throw new Error("Failed to load assets/data/vesalius.json");
+      return await res.json();
+    }
+
+    function makePlane(texture){
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.anisotropy = 8;
+      const geom = new THREE.PlaneGeometry(1, 1, 1, 1);
+      const mat = new THREE.MeshStandardMaterial({
+        map: texture, transparent: true, opacity: parseFloat(opacityEl.value),
+        roughness: 0.95, metalness: 0.0
+      });
+      return new THREE.Mesh(geom, mat);
+    }
+
+    function polyToShape(region){
+      const pts = region.polygon.map(([x,y]) => new THREE.Vector2((x - 0.5), (0.5 - y)));
+      return new THREE.Shape(pts);
+    }
+
+    function buildRegionMesh(region){
+      const shape = polyToShape(region);
+      const geom = new THREE.ShapeGeometry(shape);
+      const mat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: showRegionHighlight ? 0.18 : 0.0001,
+        depthWrite: false
+      });
+      const mesh = new THREE.Mesh(geom, mat);
+      mesh.userData.region = region;
+      return mesh;
+    }
+
+    async function buildLayers(){
+      clearSceneLayers();
+      titleEl.textContent = DATA.title || "Vesalius 3D Atlas";
+
+      layerSelect.innerHTML = "";
+      DATA.layers.forEach((L, idx) => {
+        const opt = document.createElement("option");
+        opt.value = L.id;
+        opt.textContent = `${L.name}`;
+        layerSelect.appendChild(opt);
+        if (idx === 0) activeLayerId = L.id;
+      });
+      layerSelect.value = activeLayerId;
+
+      const loader = new THREE.TextureLoader();
+
+      for (const L of DATA.layers){
+        const texture = await new Promise((resolve, reject) => {
+          loader.load(L.src, resolve, undefined, reject);
+        });
+
+        const plane = makePlane(texture);
+        const imgW = texture.image.width || 1;
+        const imgH = texture.image.height || 1;
+        const aspect = imgW / imgH;
+        const baseH = 1.0;
+        const baseW = baseH * aspect;
+        plane.scale.set(baseW, baseH, 1);
+
+        plane.position.z = -(L.depth ?? 0);
+        plane.userData.layer = L;
+
+        layersGroup.add(plane);
+
+        const regionMeshes = [];
+        (L.regions || []).forEach(region => {
+          const rm = buildRegionMesh(region);
+          rm.scale.copy(plane.scale);
+          rm.position.copy(plane.position);
+          rm.position.z += 0.0015;
+          rm.userData.layerId = L.id;
+          rm.userData.region = region;
+          layersGroup.add(rm);
+          regionMeshes.push(rm);
+          pickables.push(rm);
+        });
+
+        layerMeshes.push({ layer: L, planeMesh: plane, regionMeshes });
+      }
+
+      applyExplode();
+      fitView();
+      applyActiveLayerVisibility();
+    }
+
+    function applyActiveLayerVisibility(){
+      activeLayerId = layerSelect.value;
+
+      const active = DATA.layers.find(l => l.id === activeLayerId);
+      if (active?.thumb) thumbEl.src = active.thumb;
+
+      const regs = active?.regions || [];
+      countPill.textContent = String(regs.length);
+      bmCountPill.textContent = String(bookmarks.size);
+      renderPartsList();
+
+      layerMeshes.forEach(L => {
+        const isActive = L.layer.id === activeLayerId;
+        L.planeMesh.material.opacity = isActive ? parseFloat(opacityEl.value) : Math.max(0.18, parseFloat(opacityEl.value) * 0.22);
+        L.regionMeshes.forEach(rm => rm.visible = isActive);
+      });
+
+      clearSelection();
+      clearTrace();
+      clearHover();
+    }
+
+    function applyExplode(){
+      const explode = parseFloat(explodeEl.value);
+      layerMeshes.forEach(L => {
+        const z = (L.layer.depth ?? 0) * (explode / 0.22);
+        L.planeMesh.position.z = -z;
+        L.regionMeshes.forEach(rm => rm.position.z = -z + 0.0015);
+      });
+      if (tracePreviewLine) {
+        const active = layerMeshes.find(x => x.layer.id === activeLayerId);
+        if (active) tracePreviewLine.position.z = active.planeMesh.position.z + 0.002;
+      }
+    }
+
+    function fitView(){
+      const box = new THREE.Box3().setFromObject(layersGroup);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+
+      controls.target.copy(center);
+
+      const maxDim = Math.max(size.x, size.y);
+      const fov = camera.fov * (Math.PI / 180);
+      const dist = (maxDim / 2) / Math.tan(fov / 2);
+
+      camera.position.set(center.x, center.y, center.z + dist * 1.25);
+      camera.near = Math.max(0.01, dist / 120);
+      camera.far = dist * 30;
+      camera.updateProjectionMatrix();
+      controls.update();
+    }
+
+    function clearSelection(){
+      selName.textContent = "Nothing selected";
+      selMeta.textContent = "Hover to preview. Click to select.";
+      overviewEl.textContent = "Select a part to see brief information.";
+      notesEl.innerHTML = `<div class="muted">—</div>`;
+      bookmarkBtn.textContent = "☆ Bookmark";
+      bookmarkBtn.dataset.id = "";
+    }
+
+    function setInfo(region, layer){
+      selName.textContent = region?.name || "Nothing selected";
+      selMeta.textContent = region ? `${(region.kind||"REGION").toUpperCase()} · ${layer?.name||""}` : "Click a region on the active plate.";
+      const info = region?.info || {};
+      overviewEl.textContent = info.overview || "—";
+
+      notesEl.innerHTML = "";
+      const notes = info.notes || [];
+      if (!notes.length){
+        notesEl.innerHTML = `<div class="muted">—</div>`;
+      } else {
+        const ul = document.createElement("ul");
+        notes.forEach(n => {
+          const li = document.createElement("li");
+          li.textContent = n;
+          ul.appendChild(li);
+        });
+        notesEl.appendChild(ul);
+      }
+
+      bookmarkBtn.dataset.id = region.id;
+      bookmarkBtn.textContent = bookmarks.has(region.id) ? "★ Bookmarked" : "☆ Bookmark";
+    }
+
+    function setTip(x, y, region, layer){
+      tip.style.left = x + "px";
+      tip.style.top = y + "px";
+      tipName.textContent = region?.name || "";
+      tipMeta.textContent = `${(region?.kind||"region").toUpperCase()} · ${layer?.name||""}`;
+      tip.style.display = region ? "block" : "none";
+    }
+
+    function clearHover(){
+      if (!hovered) return;
+      hovered.material.color.copy(showRegionHighlight ? hoverColor : baseColor);
+      hovered.material.opacity = showRegionHighlight ? 0.18 : 0.0001;
+      hovered.material.needsUpdate = true;
+      hovered = null;
+      tip.style.display = "none";
+    }
+
+    function applyHover(mesh){
+      if (hovered === mesh) return;
+      clearHover();
+      hovered = mesh;
+      hovered.material.color.copy(hoverColor);
+      hovered.material.opacity = 0.28;
+      hovered.material.needsUpdate = true;
+    }
+
+    // Trace helpers
+    function screenToPlaneUV(clientX, clientY){
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+      raycaster.setFromCamera(mouse, camera);
+
+      const active = layerMeshes.find(x => x.layer.id === activeLayerId);
+      if (!active) return null;
+      const hit = raycaster.intersectObject(active.planeMesh, true)[0];
+      if (!hit || !hit.uv) return null;
+      const u = hit.uv.x;
+      const v = 1 - hit.uv.y;
+      return [u, v];
+    }
+
+    function updateTracePreview(){
+      const active = layerMeshes.find(x => x.layer.id === activeLayerId);
+      if (!active) return;
+
+      const pts = tracePoints.map(([u,v]) => {
+        const x = (u - 0.5) * active.planeMesh.scale.x;
+        const y = (0.5 - v) * active.planeMesh.scale.y;
+        return new THREE.Vector3(x, y, 0);
+      });
+
+      if (!tracePreviewLine){
+        const geom = new THREE.BufferGeometry().setFromPoints(pts);
+        const mat = new THREE.LineBasicMaterial({ color: 0xa78bfa, transparent: true, opacity: 0.92 });
+        tracePreviewLine = new THREE.Line(geom, mat);
+        tracePreviewLine.position.copy(active.planeMesh.position);
+        tracePreviewLine.position.z += 0.002;
+        layersGroup.add(tracePreviewLine);
+      } else {
+        tracePreviewLine.geometry.dispose();
+        tracePreviewLine.geometry = new THREE.BufferGeometry().setFromPoints(pts);
+        tracePreviewLine.position.copy(active.planeMesh.position);
+        tracePreviewLine.position.z += 0.002;
+      }
+      traceOut.value = JSON.stringify(tracePoints);
+    }
+
+    function clearTrace(){
+      tracePoints = [];
+      traceOut.value = "";
+      if (tracePreviewLine){
+        layersGroup.remove(tracePreviewLine);
+        tracePreviewLine.geometry.dispose();
+        tracePreviewLine.material.dispose();
+        tracePreviewLine = null;
+      }
+    }
+
+    function openTracePanel(){ tracePanel.classList.add("open"); }
+    function closeTracePanel(){ tracePanel.classList.remove("open"); }
+
+    function getActiveLayer(){
+      return DATA.layers.find(l => l.id === activeLayerId);
+    }
+
+    function renderPartsList(){
+      const L = getActiveLayer();
+      if (!L) return;
+      const q = (searchEl.value || "").trim().toLowerCase();
+      const regs = (L.regions || []).filter(r => {
+        if (!q) return true;
+        return (r.name || "").toLowerCase().includes(q) || (r.kind || "").toLowerCase().includes(q) || (r.id || "").toLowerCase().includes(q);
+      });
+
+      partsList.innerHTML = "";
+      regs.forEach(r => {
+        const row = document.createElement("div");
+        row.className = "partRow";
+        row.innerHTML = `
+          <div class="star ${bookmarks.has(r.id) ? "on" : "off"}">${bookmarks.has(r.id) ? "★" : "☆"}</div>
+          <div class="grow">
+            <div style="font-size:13px; opacity:.95">${escapeHtml(r.name)}</div>
+            <div class="muted" style="margin-top:2px">${escapeHtml((r.kind||"region").toUpperCase())}</div>
+          </div>
+          <div class="badge">${escapeHtml(r.id)}</div>
+        `;
+        row.addEventListener("mouseenter", () => {
+          // tooltip preview even from list
+          setTip(12, 12, r, L);
+        });
+        row.addEventListener("mouseleave", () => { tip.style.display = "none"; });
+        row.addEventListener("click", () => {
+          setInfo(r, L);
+          if (studyMode && studyTarget){
+            if (r.id === studyTarget){ nextStudyTarget(true); }
+          }
+        });
+        partsList.appendChild(row);
+      });
+    }
+
+    function nextStudyTarget(correct=false){
+      const L = getActiveLayer();
+      if (!L || !(L.regions||[]).length) return;
+      const pool = L.regions.map(r=>r.id);
+      const choices = pool.filter(id => id !== studyTarget);
+      studyTarget = (choices.length ? choices : pool)[Math.floor(Math.random()* (choices.length ? choices.length : pool.length))];
+      const target = L.regions.find(r=>r.id===studyTarget);
+      selMeta.textContent = correct ? "✅ Correct! New target loaded." : "Study mode";
+      selName.textContent = correct ? "Nice!" : "Find this structure:";
+      overviewEl.textContent = target?.name || studyTarget;
+      notesEl.innerHTML = `<div class="muted">Hover and click the correct region on the plate.</div>`;
+    }
+
+    function hitTest(clientX, clientY){
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -(((clientY - rect.top) / rect.height) * 2 - 1);
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(pickables.filter(o=>o.visible), true);
+      return intersects.length ? intersects[0].object : null;
+    }
+
+    // Hover handling
+    renderer.domElement.addEventListener("pointermove", (e) => {
+      if (traceMode) return; // tracing handles clicks
+      const obj = hitTest(e.clientX, e.clientY);
+      if (!obj){
+        clearHover();
+        return;
+      }
+      const region = obj.userData.region;
+      const layerId = obj.userData.layerId;
+      const layer = DATA.layers.find(l => l.id === layerId);
+
+      applyHover(obj);
+      setTip(e.offsetX, e.offsetY, region, layer);
+    });
+
+    renderer.domElement.addEventListener("pointerleave", () => { clearHover(); });
+
+    // Click handling
+    renderer.domElement.addEventListener("pointerdown", (e) => {
+      if (traceMode && e.button === 0){
+        const uv = screenToPlaneUV(e.clientX, e.clientY);
+        if (!uv) return;
+        tracePoints.push(uv);
+        openTracePanel();
+        updateTracePreview();
+        e.preventDefault();
+        return;
+      }
+
+      const obj = hitTest(e.clientX, e.clientY);
+      if (!obj) return;
+      const region = obj.userData.region;
+      const layerId = obj.userData.layerId;
+      const layer = DATA.layers.find(l => l.id === layerId);
+
+      setInfo(region, layer);
+
+      if (studyMode && studyTarget){
+        if (region.id === studyTarget) nextStudyTarget(true);
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (!traceMode) return;
+      if (e.key === "Escape"){ clearTrace(); closeTracePanel(); }
+      if (e.key === "Backspace"){ tracePoints.pop(); updateTracePreview(); }
+      if (e.key === "Enter"){
+        if (tracePoints.length >= 3){
+          traceOut.value = JSON.stringify(tracePoints);
+          openTracePanel();
+        }
+      }
+    });
+
+    // UI wiring
+    layerSelect.addEventListener("change", () => { applyActiveLayerVisibility(); if (studyMode) nextStudyTarget(false); });
+    opacityEl.addEventListener("input", applyActiveLayerVisibility);
+    explodeEl.addEventListener("input", applyExplode);
+    fitBtn.addEventListener("click", fitView);
+    searchEl.addEventListener("input", renderPartsList);
+
+    toggleRegionsBtn.addEventListener("click", () => {
+      showRegionHighlight = !showRegionHighlight;
+      toggleRegionsBtn.textContent = showRegionHighlight ? "Hide regions" : "Show regions";
+      toggleRegionsBtn.classList.toggle("primary", showRegionHighlight);
+
+      layerMeshes.forEach(L => {
+        L.regionMeshes.forEach(rm => {
+          rm.material.opacity = showRegionHighlight ? 0.18 : 0.0001;
+          rm.material.color.copy(showRegionHighlight ? hoverColor : baseColor);
+          rm.material.needsUpdate = true;
+        });
+      });
+
+      // preserve hover glow even when regions hidden
+      if (hovered){
+        hovered.material.color.copy(hoverColor);
+        hovered.material.opacity = 0.28;
+        hovered.material.needsUpdate = true;
+      }
+    });
+
+    traceBtn.addEventListener("click", () => {
+      traceMode = !traceMode;
+      traceBtn.textContent = traceMode ? "Trace mode: On" : "Trace mode: Off";
+      traceBtn.classList.toggle("primary", traceMode);
+
+      if (!traceMode) { clearTrace(); closeTracePanel(); }
+      else { openTracePanel(); clearHover(); }
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(traceOut.value); copyBtn.textContent = "Copied!"; setTimeout(()=>copyBtn.textContent="Copy", 900); }
+      catch { alert("Copy failed. Select text and copy manually."); }
+    });
+    clearTraceBtn.addEventListener("click", () => clearTrace());
+    closeTracePanelBtn.addEventListener("click", () => closeTracePanel());
+
+    bookmarkBtn.addEventListener("click", () => {
+      const id = bookmarkBtn.dataset.id;
+      if (!id) return;
+      if (bookmarks.has(id)) bookmarks.delete(id); else bookmarks.add(id);
+      saveBookmarks();
+      bookmarkBtn.textContent = bookmarks.has(id) ? "★ Bookmarked" : "☆ Bookmark";
+      renderPartsList();
+    });
+
+    clearBookmarksBtn.addEventListener("click", () => {
+      bookmarks = new Set();
+      saveBookmarks();
+      renderPartsList();
+      bmCountPill.textContent = "0";
+    });
+
+    studyBtn.addEventListener("click", () => {
+      studyMode = !studyMode;
+      studyBtn.textContent = studyMode ? "Study Mode: On" : "Study Mode: Off";
+      studyBtn.classList.toggle("primary", studyMode);
+      if (studyMode) nextStudyTarget(false);
+      else { clearSelection(); }
+    });
+
+    shuffleBtn.addEventListener("click", () => {
+      const L = getActiveLayer();
+      const regs = L?.regions || [];
+      if (!regs.length) return;
+      const r = regs[Math.floor(Math.random()*regs.length)];
+      setInfo(r, L);
+    });
+
+    function animate(){
+      controls.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+
+    (async function init(){
+      resize();
+      DATA = await loadData();
+      await buildLayers();
+      bmCountPill.textContent = String(bookmarks.size);
+      animate();
+    })().catch(err => {
+      console.error(err);
+      viewport.innerHTML = `<div style="padding:18px;color:#fff">
+        <b>Failed to start:</b> ${err.message}<br/><br/>
+        Check <code>assets/data/vesalius.json</code> and image paths in <code>assets/plates</code>.
+      </div>`;
+    });
+  </script>
+</body>
+</html>
