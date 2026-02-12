@@ -5,9 +5,9 @@ const PLATES = {
     src: "assets/img/vesalius_intestines.jpg",
     credit: "Wikimedia Commons (Wellcome Collection scan) — Exposed torso revealing intestines, by Vesalius. File: vesalius_intestines.jpg",
     notes: [
-      { x: 0.52, y: 0.42, title: "Layering", text: "The plate separates layers so students can see what sits on top of what—like a built-in lesson." },
-      { x: 0.62, y: 0.55, title: "Intestinal loops", text: "Notice how the loops are arranged to show general placement, even if exact detail varies from modern diagrams." },
-      { x: 0.40, y: 0.32, title: "Teaching pose", text: "The figure stands like a statue; that theatrical pose makes the anatomy easier to remember." }
+      { title: "Layering", text: "The plate separates layers so students can see what sits on top of what—like a built-in lesson." },
+      { title: "Intestinal loops", text: "Notice how the loops are arranged to show general placement, even if exact detail varies from modern diagrams." },
+      { title: "Teaching pose", text: "The figure stands like a statue; that theatrical pose makes the anatomy easier to remember." }
     ]
   },
   vessels: {
@@ -16,9 +16,9 @@ const PLATES = {
     src: "assets/img/vesalius_vessels.jpg",
     credit: "Wikimedia Commons (Wellcome Collection scan) — Male figure showing veins and arteries, by Vesalius. File: vesalius_vessels.jpg",
     notes: [
-      { x: 0.58, y: 0.36, title: "Vessel mapping", text: "Dense lines represent major vessels. The goal is clarity of routes, not a perfect modern map." },
-      { x: 0.52, y: 0.60, title: "Evidence over authority", text: "Vesalius promoted learning from dissection and observation rather than repeating older texts." },
-      { x: 0.46, y: 0.20, title: "Visual explanation", text: "Illustrations let readers study the same “specimen” repeatedly—something dissections couldn’t offer." }
+      { title: "Vessel mapping", text: "Dense lines represent major vessels. The goal is clarity of routes, not a perfect modern map." },
+      { title: "Evidence over authority", text: "Vesalius promoted learning from dissection and observation rather than repeating older texts." },
+      { title: "Visual explanation", text: "Illustrations let readers study the same “specimen” repeatedly—something dissections couldn’t offer." }
     ]
   },
   skeleton: {
@@ -27,9 +27,9 @@ const PLATES = {
     src: "assets/img/vesalius_skeleton.jpg",
     credit: "Wikimedia Commons (Wellcome Collection scan) — Skeleton contemplating a skull, by Vesalius. File: vesalius_skeleton.jpg",
     notes: [
-      { x: 0.52, y: 0.25, title: "Skull & spine", text: "The skull and vertebrae show careful attention to form—use this as an example of improved accuracy." },
-      { x: 0.58, y: 0.58, title: "Pelvis + femur", text: "Key weight-bearing structures are emphasised; compare to your textbook skeleton diagram." },
-      { x: 0.80, y: 0.30, title: "Storytelling", text: "The pose (holding a skull) reflects Renaissance symbolism: life, death, and the study of the body." }
+      { title: "Skull & spine", text: "The skull and vertebrae show careful attention to form—use this as an example of improved accuracy." },
+      { title: "Pelvis + femur", text: "Key weight-bearing structures are emphasised; compare to your textbook skeleton diagram." },
+      { title: "Storytelling", text: "The pose (holding a skull) reflects Renaissance symbolism: life, death, and the study of the body." }
     ]
   }
 };
