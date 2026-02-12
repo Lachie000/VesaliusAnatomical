@@ -331,3 +331,5 @@ h3{ margin:0 0 8px; font-size:13px; letter-spacing:.2px; }
   .viewer{ grid-template-columns: 1fr; }
   .notes{ border-left:none; border-top:1px solid rgba(255,255,255,.10); }
 }
+/* FORCE disable dots completely */
+.dots, .dot { display: none !important; }
